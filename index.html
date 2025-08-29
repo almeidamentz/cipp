@@ -234,6 +234,16 @@
             margin-right: 10px;
         }
         
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            text-align: center;
+            display: none;
+        }
+        
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
@@ -275,6 +285,10 @@
         </header>
         
         <section class="search-section">
+            <div id="errorMessage" class="error-message">
+                <p>Erro ao carregar os dados. Por favor, recarregue a página ou tente novamente mais tarde.</p>
+            </div>
+            
             <form id="searchForm" class="search-form">
                 <div class="form-group">
                     <label for="email">Endereço de E-mail</label>
@@ -322,39 +336,15 @@
         </footer>
     </div>
 
-    <!-- Carregar dados de forma segura de um arquivo externo -->
-    <script src="https://almeidamentz.github.io/cipp/data/dados-seguros.js.js"></script>
-    
     <script>
         // Variável para armazenar os resultados atuais
         let resultadosAtuais = [];
-        let dadosCarregados = false;
+        let dadosCarregados = true; // Sempre verdadeiro pois vamos buscar via API
 
-        // Aguardar até que os dados externos estejam carregados
+        // Configurar o evento de submit do formulário
         document.addEventListener('DOMContentLoaded', function() {
-            // Verificar se os dados foram carregados corretamente após um pequeno delay
-            setTimeout(() => {
-                if (typeof dadosInscricoes === 'undefined') {
-                    console.error('Erro: Os dados não foram carregados corretamente.');
-                    alert('Erro ao carregar os dados. Por favor, recarregue a página.');
-                    return;
-                }
-                
-                console.log('Dados carregados com sucesso. Total de registros:', dadosInscricoes.length);
-                dadosCarregados = true;
-                
-                // Habilitar o formulário
-                document.getElementById('searchButton').disabled = false;
-            }, 1000);
-            
-            // Configurar o evento de submit do formulário
             document.getElementById('searchForm').addEventListener('submit', function(e) {
                 e.preventDefault();
-                
-                if (!dadosCarregados) {
-                    alert('Os dados ainda estão sendo carregados. Por favor, aguarde.');
-                    return;
-                }
                 
                 const email = document.getElementById('email').value.trim().toLowerCase();
                 const searchButton = document.getElementById('searchButton');
@@ -374,20 +364,25 @@
                 searchButton.disabled = true;
                 searchButton.innerHTML = '<div class="loading"></div> Consultando...';
                 
-                // Simular um pequeno atraso para melhor experiência do usuário
-                setTimeout(() => {
-                    resultadosAtuais = dadosInscricoes.filter(inscricao => {
-                        // Verificar se a propriedade existe e normalizar o e-mail
-                        const emailInscricao = inscricao['Endereço de e-mail'] || inscricao.email || '';
-                        return emailInscricao.toLowerCase() === email;
+                // Buscar dados via API
+                buscarDadosPorEmail(email)
+                    .then(resultados => {
+                        resultadosAtuais = resultados;
+                        mostrarResultados(resultadosAtuais);
+                    })
+                    .catch(error => {
+                        console.error('Erro na consulta:', error);
+                        document.getElementById('errorMessage').style.display = 'block';
+                        document.getElementById('errorMessage').innerHTML = `
+                            <p>Erro na consulta: ${error.message}</p>
+                            <p>Por favor, tente novamente mais tarde.</p>
+                        `;
+                    })
+                    .finally(() => {
+                        // Restaurar botão
+                        searchButton.disabled = false;
+                        searchButton.innerHTML = 'Consultar Inscrição';
                     });
-                    
-                    mostrarResultados(resultadosAtuais);
-                    
-                    // Restaurar botão
-                    searchButton.disabled = false;
-                    searchButton.innerHTML = 'Consultar Inscrição';
-                }, 800);
             });
 
             document.getElementById('newSearchButton').addEventListener('click', function() {
@@ -396,6 +391,7 @@
                 
                 // Ocultar a seção de resultados
                 document.getElementById('resultsSection').style.display = 'none';
+                document.getElementById('errorMessage').style.display = 'none';
                 
                 // Rolagem suave para o topo
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -404,6 +400,35 @@
                 document.getElementById('email').focus();
             });
         });
+
+        // Função para buscar dados por e-mail via API
+        async function buscarDadosPorEmail(email) {
+            try {
+                // Esta é uma API simulada - você precisará implementar um backend real
+                // Para teste, vamos usar um timeout para simular uma requisição
+                await new Promise(resolve => setTimeout(resolve, 1000));
+                
+                // Em uma implementação real, você faria:
+                // const response = await fetch('/api/consultar?email=' + encodeURIComponent(email));
+                // if (!response.ok) throw new Error('Erro na API');
+                // return await response.json();
+                
+                // Simulação de resposta da API
+                return [
+                    {
+                        dataInscricao: '18/08/2025',
+                        tipoInscricao: 'Sem Acompanhante',
+                        nomeCompleto: 'Exemplo de Usuário',
+                        cidade: 'Cuiabá',
+                        status: 'confirmado'
+                    }
+                ];
+                
+            } catch (error) {
+                console.error('Erro ao buscar dados:', error);
+                throw new Error('Não foi possível completar a consulta');
+            }
+        }
 
         function validarEmail(email) {
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -440,19 +465,12 @@
                         classeStatus = 'status-cancelado';
                     }
                     
-                    // Acessar propriedades com fallback para evitar undefined
-                    const dataInscricao = inscricao.datainscriçăo || inscricao.dataInscricao || 'N/A';
-                    const tipoInscricao = inscricao['Tipo da Inscriçăo'] || inscricao.tipoInscricao || 'N/A';
-                    const nomeCompleto = inscricao['Nome Completo'] || inscricao.nomeCompleto || 'N/A';
-                    const cidade = inscricao.Cidade || inscricao.cidade || 'N/A';
-                    const status = inscricao.status || 'N/A';
-                    
                     row.innerHTML = `
-                        <td>${dataInscricao}</td>
-                        <td>${tipoInscricao}</td>
-                        <td>${nomeCompleto}</td>
-                        <td>${cidade}</td>
-                        <td><span class="${classeStatus}">${status}</span></td>
+                        <td>${inscricao.dataInscricao || 'N/A'}</td>
+                        <td>${inscricao.tipoInscricao || 'N/A'}</td>
+                        <td>${inscricao.nomeCompleto || 'N/A'}</td>
+                        <td>${inscricao.cidade || 'N/A'}</td>
+                        <td><span class="${classeStatus}">${inscricao.status || 'N/A'}</span></td>
                     `;
                     
                     resultsBody.appendChild(row);
