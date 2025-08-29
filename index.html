@@ -3,508 +3,632 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Inscrição - Condomínio Rita Monteiro</title>
+    <title>Consulta de Inscrição</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        :root {
-            --primary-color: #00796b;
-            --primary-dark: #004d40;
-            --primary-light: #e0f7fa;
-            --text-color: #333;
-            --light-gray: #f5f5f5;
-            --error-color: #f44336;
-            --success-color: #4caf50;
-            --warning-color: #ff9800;
-        }
-        
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
+        body {
+            background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+            min-height: 100vh;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         
-        body {
-            background: linear-gradient(135deg, var(--primary-light) 0%, #ffffff 100%);
-            color: var(--text-color);
-            line-height: 1.6;
-            min-height: 100vh;
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 900px;
-            background-color: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-        }
-        
-        header {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-            color: white;
-            padding: 25px;
-            text-align: center;
-        }
-        
-        h1 {
-            font-size: 2rem;
-            margin-bottom: 10px;
-        }
-        
-        .description {
-            font-size: 1rem;
-            opacity: 0.9;
-        }
-        
-        .search-section {
-            padding: 25px;
-            background-color: white;
-        }
-        
-        .search-form {
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-        
-        .form-group {
-            width: 100%;
-        }
-        
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #444;
-        }
-        
-        input[type="email"] {
-            width: 100%;
-            padding: 14px 16px;
-            border: 2px solid #ddd;
-            border-radius: 6px;
-            font-size: 16px;
-            transition: border-color 0.3s;
-        }
-        
-        input[type="email"]:focus {
-            border-color: var(--primary-color);
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(0, 121, 107, 0.2);
-        }
-        
-        button {
-            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
-            color: white;
+        .card {
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
             border: none;
-            padding: 14px 28px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: 600;
-            transition: transform 0.2s, box-shadow 0.2s;
-            width: 100%;
-        }
-        
-        button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-        }
-        
-        button:active {
-            transform: translateY(0);
-        }
-        
-        .btn-secondary {
-            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
-        }
-        
-        .results-section {
-            padding: 25px;
-            display: none;
-        }
-        
-        .results-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 20px;
-            padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
-        }
-        
-        .results-count {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #444;
-        }
-        
-        .no-results {
-            text-align: center;
-            padding: 40px;
-            color: #777;
-            background-color: var(--light-gray);
-            border-radius: 8px;
-        }
-        
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            border-radius: 8px;
             overflow: hidden;
         }
         
-        th, td {
-            padding: 12px 14px;
-            text-align: left;
-            border-bottom: 1px solid #eee;
+        .header {
+            background: linear-gradient(90deg, #2e7d32, #4caf50);
+            color: white;
+            padding: 25px;
+            text-align: center;
         }
         
-        th {
-            background-color: #f8f9fa;
+        .btn-consultar {
+            background: linear-gradient(90deg, #2e7d32, #4caf50);
+            border: none;
+            border-radius: 30px;
+            padding: 12px 30px;
             font-weight: 600;
-            color: #444;
+            transition: all 0.3s;
         }
         
-        tr:hover {
-            background-color: #f8f9fa;
+        .btn-consultar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(90deg, #1b5e20, #388e3c);
+        }
+        
+        .result-card {
+            display: none;
+            animation: fadeIn 0.5s;
+            background-color: #f1f8e9;
+            border-radius: 10px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
         
         .status-confirmado {
-            background-color: #d4edda;
-            color: #155724;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            display: inline-block;
-            font-weight: 500;
+            background-color: #4caf50 !important;
+            color: white;
         }
         
         .status-pendente {
-            background-color: #fff3cd;
-            color: #856404;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            display: inline-block;
-            font-weight: 500;
+            background-color: #ffc107 !important;
+            color: black;
         }
         
         .status-cancelado {
-            background-color: #f8d7da;
-            color: #721c24;
-            padding: 6px 12px;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            display: inline-block;
-            font-weight: 500;
+            background-color: #f44336 !important;
+            color: white;
         }
         
-        .action-buttons {
+        .info-label {
+            font-weight: 600;
+            color: #2e7d32;
+        }
+        
+        .footer {
+            background-color: #2e7d32;
+            color: white;
+            padding: 15px;
+            text-align: center;
+        }
+        
+        .form-control:focus {
+            border-color: #4caf50;
+            box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25);
+        }
+        
+        .input-group-text {
+            background-color: #e8f5e9;
+            border-color: #c8e6c9;
+        }
+        
+        .alert-info {
+            background-color: #e8f5e9;
+            border-color: #c8e6c9;
+            color: #2e7d32;
+        }
+        
+        .card-inscricao {
+            background-color: #f1f8e9;
+            border: 1px solid #c8e6c9;
+            border-radius: 10px;
+        }
+        
+        /* Estilo para mensagem de bloqueio */
+        #blockMessage {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9);
+            color: white;
             display: flex;
             justify-content: center;
-            margin-top: 30px;
-        }
-        
-        footer {
-            text-align: center;
-            margin-top: 40px;
-            color: #777;
-            font-size: 0.9rem;
-            padding: 20px;
-            background-color: #f8f9fa;
-            border-top: 1px solid #eee;
-        }
-        
-        .loading {
-            display: inline-block;
-            width: 20px;
-            height: 20px;
-            border: 3px solid rgba(255,255,255,.3);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-            margin-right: 10px;
-        }
-        
-        .error-message {
-            background-color: #ffebee;
-            color: var(--error-color);
-            padding: 15px;
-            border-radius: 6px;
-            margin-top: 15px;
+            align-items: center;
+            z-index: 9999;
+            font-size: 24px;
             text-align: center;
             display: none;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        @media (min-width: 768px) {
-            .search-form {
-                flex-direction: row;
-                align-items: flex-end;
-            }
-            
-            .form-group {
-                flex: 1;
-            }
-            
-            button {
-                width: auto;
-            }
-        }
-        
-        @media (max-width: 767px) {
-            th, td {
-                padding: 10px;
-                font-size: 14px;
-            }
-            
-            .results-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <header>
-            <h1>Consulta de Inscrição</h1>
-            <p class="description">Condomínio Rita Monteiro - Informe seu e-mail para consultar suas inscrições</p>
-        </header>
-        
-        <section class="search-section">
-            <form id="searchForm" class="search-form">
-                <div class="form-group">
-                    <label for="email">Endereço de E-mail</label>
-                    <input type="email" id="email" name="email" placeholder="Digite seu e-mail cadastrado" required>
+    <!-- Mensagem de bloqueio -->
+    <div id="blockMessage">
+        <div>
+            <i class="fas fa-ban fa-5x mb-4"></i>
+            <h2>Inspeção de página desativada</h2>
+            <p>O uso de ferramentas de desenvolvedor não é permitido nesta página.</p>
+        </div>
+    </div>
+    
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <div class="card">
+                    <div class="header">
+                        <h2><i class="fas fa-search me-2"></i>Consulta de Inscrição</h2>
+                        <p class="mb-0">Informe seu e-mail para consultar sua inscrição</p>
+                    </div>
+                    
+                    <div class="card-body p-4">
+                        <form id="consultaForm">
+                            <div class="mb-4">
+                                <label for="email" class="form-label info-label">Endereço de E-mail</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                                    <input type="email" class="form-control" id="email" placeholder="seu.email@exemplo.com" required>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-consultar">
+                                    <i class="fas fa-search me-2"></i>Consultar Inscrição
+                                </button>
+                            </div>
+                        </form>
+                        
+                        <div id="resultado" class="result-card mt-4">
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>Resultado da consulta
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><span class="info-label">Nome Completo:</span> <span id="nomeCompleto"></span></p>
+                                    <p><span class="info-label">Data de Inscrição:</span> <span id="dataInscricao"></span></p>
+                                    <p><span class="info-label">Gênero:</span> <span id="genero"></span></p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><span class="info-label">Cidade:</span> <span id="cidade"></span></p>
+                                    <p><span class="info-label">Idade:</span> <span id="idade"></span></p>
+                                    <p><span class="info-label">Tipo de Inscrição:</span> <span id="tipoInscricao"></span></p>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center mt-3">
+                                <span class="info-label me-2">Status:</span>
+                                <span id="status" class="badge rounded-pill"></span>
+                            </div>
+                        </div>
+                        
+                        <div id="nenhumResultado" class="alert alert-warning text-center mt-4" style="display: none;">
+                            <i class="fas fa-exclamation-triangle me-2"></i>Nenhuma inscrição encontrada para este e-mail.
+                        </div>
+                        
+                        <div id="multiResultado" class="result-card mt-4">
+                            <div class="alert alert-info">
+                                <i class="fas fa-info-circle me-2"></i>Foram encontradas múltiplas inscrições para este e-mail
+                            </div>
+                            
+                            <div id="inscricoesList" class="mt-3">
+                                <!-- As inscrições serão adicionadas aqui via JavaScript -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="footer">
+                        <p class="mb-0">Sistema de Consulta de Inscrições &copy; 2025</p>
+                    </div>
                 </div>
-                <button type="submit" id="searchButton">Consultar Inscrição</button>
-            </form>
-            <div id="errorMessage" class="error-message">
-                Erro ao carregar os dados. Por favor, recarregue a página.
             </div>
-        </section>
-        
-        <section id="resultsSection" class="results-section">
-            <div class="results-header">
-                <h2>Resultados da Consulta</h2>
-                <div id="resultsCount" class="results-count">0 inscrições encontradas</div>
-            </div>
-            
-            <div id="noResults" class="no-results">
-                <p>Nenhuma inscrição encontrada para o e-mail informado.</p>
-                <p style="margin-top: 15px;">Verifique se digitou o e-mail corretamente ou entre em contato conosco.</p>
-            </div>
-            
-            <div id="resultsTableContainer" style="overflow-x: auto; display: none;">
-                <table id="resultsTable">
-                    <thead>
-                        <tr>
-                            <th>Data de Inscrição</th>
-                            <th>Tipo de Inscrição</th>
-                            <th>Nome Completo</th>
-                            <th>Cidade</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resultsBody">
-                        <!-- Os resultados serão inseridos aqui via JavaScript -->
-                    </tbody>
-                </table>
-            </div>
-            
-            <div class="action-buttons">
-                <button id="newSearchButton" class="btn-secondary">Nova Consulta</button>
-            </div>
-        </section>
-        
-        <footer>
-            <p>Sistema de Consulta de Inscrições - Condomínio Rita Monteiro &copy; 2023</p>
-        </footer>
+        </div>
     </div>
 
     <script>
-        // Variável para armazenar os dados das inscrições
-        let dadosInscricoes = [];
-        let resultadosAtuais = [];
-        let dadosCarregados = false;
-
-        // Função para carregar os dados
-        async function carregarDados() {
-            try {
-                // Tentar carregar de diferentes fontes possíveis
-                const urls = [
-                    'https://raw.githubusercontent.com/almeidamentz/cipp/main/data/dados-seguros.js',
-                    'https://cdn.jsdelivr.net/gh/almeidamentz/cipp@main/data/dados-seguros.js',
-                    'data/dados-seguros.js'
-                ];
-                
-                let success = false;
-                
-                for (const url of urls) {
-                    try {
-                        const response = await fetch(url);
-                        if (response.ok) {
-                            const scriptContent = await response.text();
-                            
-                            // Extrair o array de dados do script
-                            const match = scriptContent.match(/var dadosInscricoes\s*=\s*(\[.*?\]);/s);
-                            if (match && match[1]) {
-                                dadosInscricoes = JSON.parse(match[1]);
-                                success = true;
-                                console.log('Dados carregados com sucesso de:', url);
-                                break;
-                            }
-                        }
-                    } catch (e) {
-                        console.warn('Falha ao carregar de', url, e);
-                        continue;
-                    }
-                }
-                
-                if (!success) {
-                    throw new Error('Não foi possível carregar os dados de nenhuma fonte');
-                }
-                
-                dadosCarregados = true;
-                document.getElementById('errorMessage').style.display = 'none';
-                
-            } catch (error) {
-                console.error('Erro ao carregar dados:', error);
-                document.getElementById('errorMessage').style.display = 'block';
-                document.getElementById('searchButton').disabled = true;
-            }
-        }
-
-        // Aguardar até que o DOM esteja carregado
-        document.addEventListener('DOMContentLoaded', function() {
-            // Iniciar o carregamento dos dados
-            carregarDados();
-            
-            // Configurar o evento de submit do formulário
-            document.getElementById('searchForm').addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                if (!dadosCarregados) {
-                    alert('Os dados ainda não foram carregados. Por favor, aguarde.');
-                    return;
-                }
-                
-                const email = document.getElementById('email').value.trim().toLowerCase();
-                const searchButton = document.getElementById('searchButton');
-                
-                if (!email) {
-                    alert('Por favor, informe um endereço de e-mail para consulta.');
-                    return;
-                }
-                
-                // Validar formato de e-mail
-                if (!validarEmail(email)) {
-                    alert('Por favor, informe um endereço de e-mail válido.');
-                    return;
-                }
-                
-                // Mostrar estado de carregamento
-                searchButton.disabled = true;
-                searchButton.innerHTML = '<div class="loading"></div> Consultando...';
-                
-                // Simular um pequeno atraso para melhor experiência do usuário
-                setTimeout(() => {
-                    resultadosAtuais = dadosInscricoes.filter(inscricao => 
-                        inscricao['Endereço de e-mail'] && inscricao['Endereço de e-mail'].toLowerCase() === email
-                    );
-                    
-                    mostrarResultados(resultadosAtuais);
-                    
-                    // Restaurar botão
-                    searchButton.disabled = false;
-                    searchButton.innerHTML = 'Consultar Inscrição';
-                }, 800);
-            });
-
-            document.getElementById('newSearchButton').addEventListener('click', function() {
-                // Limpar o campo de email
-                document.getElementById('email').value = '';
-                
-                // Ocultar a seção de resultados
-                document.getElementById('resultsSection').style.display = 'none';
-                
-                // Rolagem suave para o topo
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                
-                // Focar no campo de email
-                document.getElementById('email').focus();
-            });
+        // ==============================================
+        // CÓDIGO DE BLOQUEIO DE INSPEÇÃO
+        // ==============================================
+        
+        // Bloquear menu de contexto (botão direito)
+        document.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            showBlockMessage();
         });
-
-        function validarEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(email);
-        }
-
-        function mostrarResultados(resultados) {
-            const resultsSection = document.getElementById('resultsSection');
-            const noResults = document.getElementById('noResults');
-            const resultsBody = document.getElementById('resultsBody');
-            const resultsCount = document.getElementById('resultsCount');
-            const resultsTableContainer = document.getElementById('resultsTableContainer');
+        
+        // Bloquear atalhos de teclado
+        document.addEventListener('keydown', function(e) {
+            // F12
+            if (e.keyCode === 123) {
+                e.preventDefault();
+                showBlockMessage();
+            }
             
-            // Limpar resultados anteriores
-            resultsBody.innerHTML = '';
+            // Ctrl+Shift+I
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 73) {
+                e.preventDefault();
+                showBlockMessage();
+            }
+            
+            // Ctrl+Shift+J
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 74) {
+                e.preventDefault();
+                showBlockMessage();
+            }
+            
+            // Ctrl+U
+            if (e.ctrlKey && e.keyCode === 85) {
+                e.preventDefault();
+                showBlockMessage();
+            }
+            
+            // Ctrl+Shift+C
+            if (e.ctrlKey && e.shiftKey && e.keyCode === 67) {
+                e.preventDefault();
+                showBlockMessage();
+            }
+        });
+        
+        // Detectar abertura de ferramentas de desenvolvedor
+        (function() {
+            let devtools = {
+                open: false,
+                orientation: null
+            };
+            
+            const threshold = 160;
+            const emitEvent = (state, orientation) => {
+                window.dispatchEvent(new CustomEvent('devtoolschange', {
+                    detail: {
+                        open: state,
+                        orientation
+                    }
+                }));
+            };
+            
+            setInterval(() => {
+                const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+                const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+                const orientation = widthThreshold ? 'vertical' : 'horizontal';
+                
+                if (!(heightThreshold && widthThreshold) &&
+                    ((window.Firebug && window.Firebug.chrome && window.Firebug.chrome.isInitialized) || 
+                     widthThreshold || heightThreshold)) {
+                    
+                    if (!devtools.open || devtools.orientation !== orientation) {
+                        emitEvent(true, orientation);
+                        showBlockMessage();
+                    }
+                    
+                    devtools.open = true;
+                    devtools.orientation = orientation;
+                } else {
+                    if (devtools.open) {
+                        emitEvent(false, null);
+                    }
+                    
+                    devtools.open = false;
+                    devtools.orientation = null;
+                }
+            }, 500);
+        })();
+        
+        // Função para mostrar mensagem de bloqueio
+        function showBlockMessage() {
+            document.getElementById('blockMessage').style.display = 'flex';
+            
+            // Esconder a mensagem após 3 segundos
+            setTimeout(function() {
+                document.getElementById('blockMessage').style.display = 'none';
+            }, 3000);
+        }
+        
+        // ==============================================
+        // CÓDIGO ORIGINAL DA APLICAÇÃO
+        // ==============================================
+        
+        // Todos os dados do arquivo CSV
+       const dadosInscricoes = [
+            { data: "18/08/2025", email: "firmno.luciano1974@gmail.com", tipo: "Sem Acompanhante", nome: "Luciano Firmino de Azevedo", genero: "Masculino", cidade: "Cuiabá", idade: "51", status: "confirmado" },
+            { data: "18/08/2025", email: "genivaldosantanadacosta@gmail.com", tipo: "Sem Acompanhante", nome: "Genivaldo Santana da Costa", genero: "Masculino", cidade: "Cuiabá", idade: "61", status: "confirmado" },
+            { data: "18/08/2025", email: "eder92770466@gmail.com", tipo: "Sem Acompanhante", nome: "Éder da Silva Queiroz", genero: "Masculino", cidade: "Cuiabá", idade: "41", status: "confirmado" },
+            { data: "18/08/2025", email: "kleberjuniorcandido@gmail.com", tipo: "Sem Acompanhante", nome: "Kleber cândido domingos junior", genero: "Masculino", cidade: "Cuiabá", idade: "32", status: "confirmado" },
+            { data: "18/08/2025", email: "vilma.freitasvf24@gmail.com", tipo: "Sem Acompanhante", nome: "VILMA FREITAS", genero: "Feminino", cidade: "Cuiabá", idade: "63", status: "confirmado" },
+            { data: "18/08/2025", email: "rlira3923@gmail.com", tipo: "Sem Acompanhante", nome: "Rosangela Lira Lacerda", genero: "Feminino", cidade: "Cuiabá", idade: "40", status: "confirmado" },
+            { data: "18/08/2025", email: "rlira3923@gmail.com", tipo: "Sem Acompanhante", nome: "Pedro Rameiro Costa Filho", genero: "Masculino", cidade: "Cuiabá", idade: "40", status: "confirmado" },
+            { data: "18/08/2025", email: "janemeira.pereira@gmail.com", tipo: "Sem Acompanhante", nome: "Jane meira", genero: "Feminino", cidade: "Cuiabá", idade: "53", status: "confirmado" },
+            { data: "18/08/2025", email: "molinarilucass11@gmail.com", tipo: "Sem Acompanhante", nome: "Lucas Molinari leal", genero: "Masculino", cidade: "Cuiabá", idade: "30", status: "confirmado" },
+            { data: "18/08/2025", email: "moniquekar@gmail.com", tipo: "Sem Acompanhante", nome: "Sidnei Luiz de Souza Bueno", genero: "Masculino", cidade: "Cuiabá", idade: "43", status: "confirmado" },
+            { data: "18/08/2025", email: "elianedias3839@gmail.com", tipo: "Sem Acompanhante", nome: "Eliane Santos Dias Alves", genero: "Feminino", cidade: "Cuiabá", idade: "45", status: "confirmado" },
+            { data: "18/08/2025", email: "henriquepaulo00497@gmail.com", tipo: "Sem Acompanhante", nome: "Paulo Henrique da cruz veiga", genero: "Masculino", cidade: "Cuiabá", idade: "34", status: "confirmado" },
+            { data: "18/08/2025", email: "santanagazin@gmail.com", tipo: "Sem Acompanhante", nome: "Marcio Santana", genero: "Masculino", cidade: "Cuiabá", idade: "42", status: "confirmado" },
+            { data: "18/08/2025", email: "lucienebueno61@gmail.com", tipo: "Sem Acompanhante", nome: "Eldes de arruda Kisels", genero: "Feminino", cidade: "Cuiabá", idade: "44", status: "confirmado" },
+            { data: "18/08/2025", email: "carolfna13@gmail.com", tipo: "Sem Acompanhante", nome: "Caroline francyele Nogueira de Almeida", genero: "Feminino", cidade: "Cuiabá", idade: "32", status: "confirmado" },
+            { data: "18/08/2025", email: "manoel64a@gmail.com", tipo: "Sem Acompanhante", nome: "Manoel Pedro de Alcântara neto", genero: "Masculino", cidade: "Cuiabá", idade: "61", status: "confirmado" },
+            { data: "18/08/2025", email: "lucykarola@gmail.com", tipo: "Sem Acompanhante", nome: "Lucy lima", genero: "Feminino", cidade: "Cuiabá", idade: "59", status: "confirmado" },
+            { data: "18/08/2025", email: "fkely.amorim@gmail.com", tipo: "Sem Acompanhante", nome: "Franciskely Araújo de Amorim", genero: "Feminino", cidade: "Cuiabá", idade: "42", status: "confirmado" },
+            { data: "18/08/2025", email: "almeidalcides@gmail.com", tipo: "Sem Acompanhante", nome: "Alcides Casimiro de Almeida filho", genero: "Masculino", cidade: "Cuiabá", idade: "54", status: "confirmado" },
+            { data: "18/08/2025", email: "genilcefreitas@hotmail.com", tipo: "Sem Acompanhante", nome: "Genilse Freitas Barbosa", genero: "Feminino", cidade: "Cuiabá", idade: "61", status: "confirmado" },
+            { data: "18/08/2025", email: "rosildacmagalhaes@gmail.com", tipo: "Sem Acompanhante", nome: "Rosilda cunha Magalhães", genero: "Feminino", cidade: "Cuiabá", idade: "42", status: "confirmado" },
+            { data: "18/08/2025", email: "martins.adenir@gmail.com", tipo: "Sem Acompanhante", nome: "Adenir Nunes Martins", genero: "Feminino", cidade: "Cuiabá", idade: "51", status: "confirmado" },
+            { data: "18/08/2025", email: "marciaisdias77@gmail.com", tipo: "Sem Acompanhante", nome: "Marcia Dias", genero: "Feminino", cidade: "Cuiabá", idade: "60", status: "confirmado" },
+            { data: "18/08/2025", email: "prpaulosilva002@gmail.com", tipo: "Sem Acompanhante", nome: "Paulo Henrique", genero: "Masculino", cidade: "Cuiabá", idade: "39", status: "confirmado" },
+            { data: "18/08/2025", email: "mateus.v3620@gmail.com", tipo: "Sem Acompanhante", nome: "Mateus Vitor Correa Dos Santos", genero: "Masculino", cidade: "Cuiabá", idade: "15", status: "pendente" },
+            { data: "19/08/2025", email: "andreilzabatata43@gmail.com", tipo: "Sem Acompanhante", nome: "Andreilza Galdino Costa", genero: "Feminino", cidade: "Cuiabá", idade: "53", status: "confirmado" },
+            { data: "19/08/2025", email: "maurojosestoelben@gmail.com", tipo: "Sem Acompanhante", nome: "Mauro José stoelben", genero: "Masculino", cidade: "Cuiabá", idade: "62", status: "confirmado" },
+            { data: "19/08/2025", email: "moacyramorim2@gmail.com", tipo: "Sem Acompanhante", nome: "Moacyr amorim", genero: "Masculino", cidade: "Cuiabá", idade: "55", status: "confirmado" },
+            { data: "19/08/2025", email: "luizmiguel16@gmail.com", tipo: "Sem Acompanhante", nome: "Luiz Miguel da Silva Barbosa", genero: "Masculino", cidade: "Cuiabá", idade: "39", status: "confirmado" },
+            { data: "19/08/2025", email: "rozy.cm@gmail.com", tipo: "Sem Acompanhante", nome: "Roseny Costa Marques amarilha", genero: "Feminino", cidade: "Cuiabá", idade: "65", status: "confirmado" },
+            { data: "19/08/2025", email: "wandersonth@gmail.com", tipo: "Sem Acompanhante", nome: "Wanderson Thiago de Oliveira", genero: "Masculino", cidade: "Cuiabá", idade: "34", status: "confirmado" },
+            { data: "19/08/2025", email: "wandersonth@gmail.com", tipo: "Sem Acompanhante", nome: "Jacqueline Góes Cerioli", genero: "Feminino", cidade: "Cuiabá", idade: "35", status: "confirmado" },
+            { data: "19/08/2025", email: "soniaoliveiracba@gmail.com", tipo: "Sem Acompanhante", nome: "SONIA CRISTINA DE OLIVEIRA", genero: "Feminino", cidade: "Cuiabá", idade: "60", status: "confirmado" },
+            { data: "19/08/2025", email: "delcinassif@gmail.com", tipo: "Sem Acompanhante", nome: "Delci Nassif", genero: "Feminino", cidade: "Cuiabá", idade: "54", status: "confirmado" },
+            { data: "19/08/2025", email: "jeovandadutragomes@gmail.com", tipo: "Sem Acompanhante", nome: "Jeovanda Dutra", genero: "Feminino", cidade: "Cuiabá", idade: "49", status: "confirmado" },
+            { data: "19/08/2025", email: "sandramariadacostafelix@gmail.com", tipo: "Sem Acompanhante", nome: "SANDRA MARIA DA COSTA FELIX", genero: "Feminino", cidade: "Cuiabá", idade: "53", status: "confirmado" },
+            { data: "19/08/2025", email: "regilopessousa@gmail.com", tipo: "Sem Acompanhante", nome: "Regilaine Aparecida de Souza Lopes", genero: "Feminino", cidade: "Cuiabá", idade: "49", status: "confirmado" },
+            { data: "19/08/2025", email: "yohannmelnec@gmail.com", tipo: "Sem Acompanhante", nome: "Carlos Yohann Silva Melnec", genero: "Masculino", cidade: "Cuiabá", idade: "16", status: "pendente" },
+            { data: "19/08/2025", email: "alissonanthony2912@gmail.com", tipo: "Sem Acompanhante", nome: "Alisson Anthony Brandão Gomes da silva", genero: "Masculino", cidade: "Cuiabá", idade: "28", status: "confirmado" },
+            { data: "19/08/2025", email: "hagapaulorodrigues@gmail.com", tipo: "Sem Acompanhante", nome: "Hermes Paulo Rodrigues", genero: "Masculino", cidade: "Cuiabá", idade: "46", status: "confirmado" },
+            { data: "19/08/2025", email: "debora.rp96@gmail.com", tipo: "Sem Acompanhante", nome: "Debora Rodrigues Brandão", genero: "Feminino", cidade: "Cuiabá", idade: "29", status: "confirmado" },
+            { data: "19/08/2025", email: "joaolucas09isadora@gmail.com", tipo: "Sem Acompanhante", nome: "Katia Kamilla Santos de Pinho e Silva", genero: "Feminino", cidade: "Cuiabá", idade: "35", status: "confirmado" },
+            { data: "19/08/2025", email: "katyarodrigues@seplag.mt.gov.br", tipo: "Sem Acompanhante", nome: "Katya Rodrigues", genero: "Feminino", cidade: "Cuiabá", idade: "43", status: "confirmado" },
+            { data: "19/08/2025", email: "elisangela.adg@gmail.com", tipo: "Sem Acompanhante", nome: "Elisangela Ferreira Ribeiro da Silva", genero: "Feminino", cidade: "Cuiabá", idade: "46", status: "confirmado" },
+            { data: "19/08/2025", email: "ronielprr@gmail.com", tipo: "Sem Acompanhante", nome: "Roniel Pereira da Silva", genero: "Masculino", cidade: "Cuiabá", idade: "38", status: "confirmado" },
+            { data: "19/08/2025", email: "tthaisarodrigues@gmail.com", tipo: "Sem Acompanhante", nome: "Thaísa Rodrigues Amadeus", genero: "Feminino", cidade: "Cuiabá", idade: "31", status: "confirmado" },
+            { data: "19/08/2025", email: "leroygodinho2019@gmail.com", tipo: "Sem Acompanhante", nome: "Leonardo Godinho da Silva", genero: "Masculino", cidade: "Cuiabá", idade: "42", status: "confirmado" },
+            { data: "19/08/2025", email: "crisgodoyvet@gmail.com", tipo: "Sem Acompanhante", nome: "Cristiane Corrêa Godoy Silva", genero: "Feminino", cidade: "Cuiabá", idade: "45", status: "confirmado" },
+            { data: "19/08/2025", email: "2020isinete@gmail.com", tipo: "Sem Acompanhante", nome: "Isinete Alves da Costa e Silva", genero: "Feminino", cidade: "Cuiabá", idade: "57", status: "confirmado" },
+            { data: "19/08/2025", email: "silvanoliveiracba@hotmail.com", tipo: "Sem Acompanhante", nome: "Silvano Oliveira", genero: "Masculino", cidade: "Cuiabá", idade: "60", status: "confirmado" },
+            { data: "20/08/2025", email: "vandin.barbosa@gmail.com", tipo: "Sem Acompanhante", nome: "Vanderlei Barbosa dos Santos", genero: "Masculino", cidade: "Cuiabá", idade: "48", status: "confirmado" },
+            { data: "20/08/2025", email: "raieda33@gmail.com", tipo: "Sem Acompanhante", nome: "Raquel Ieda de Souza", genero: "Feminino", cidade: "Cuiabá", idade: "53", status: "confirmado" },
+            { data: "20/08/2025", email: "raieda33@gmail.com", tipo: "Sem Acompanhante", nome: "Leônidas Soares de Souza", genero: "Masculino", cidade: "Cuiabá", idade: "59", status: "confirmado" },
+            { data: "20/08/2025", email: "fatimaqueirozimel@gmail.com", tipo: "Sem Acompanhante", nome: "Fátima Gonçalves de Queiroz", genero: "Feminino", cidade: "Cuiabá", idade: "49", status: "confirmado" },
+            { data: "20/08/2025", email: "fabiola.moreiraf25@gmail.com", tipo: "Sem Acompanhante", nome: "Fabíola Moreira", genero: "Feminino", cidade: "Cuiabá", idade: "36", status: "confirmado" },
+            { data: "20/08/2025", email: "camilayasminester@gmail.com", tipo: "Sem Acompanhante", nome: "Camila Borges Queiroz", genero: "Feminino", cidade: "Cuiabá", idade: "29", status: "confirmado" },
+            { data: "20/08/2025", email: "angelacarvalho2015.ac@gmail.com", tipo: "Sem Acompanhante", nome: "Angela Maria Carvalho de Souza", genero: "Feminino", cidade: "Cuiabá", idade: "49", status: "confirmado" },
+            { data: "20/08/2025", email: "miriancbatista25@gmail.com", tipo: "Sem Acompanhante", nome: "MIRIAN BATISTA", genero: "Feminino", cidade: "Cuiabá", idade: "56", status: "confirmado" },
+            { data: "20/08/2025", email: "william.nascente1995@gmail.com", tipo: "Sem Acompanhante", nome: "William Felipe Pinto Nascente", genero: "Masculino", cidade: "Cuiabá", idade: "30", status: "confirmado" },
+            { data: "20/08/2025", email: "anavitoriabrandao19@gmail.com", tipo: "Sem Acompanhante", nome: "Ana Vitoria Brandão Silva", genero: "Feminino", cidade: "Cuiabá", idade: "25", status: "confirmado" },
+            { data: "20/08/2025", email: "carlosmendonca.cba@gmail.com", tipo: "Sem Acompanhante", nome: "Carlos Mendonça", genero: "Masculino", cidade: "Cuiabá", idade: "31", status: "confirmado" },
+            { data: "20/08/2025", email: "ana.cassiana@gmail.com", tipo: "Sem Acompanhante", nome: "ANA CASSIANA DE JESUS RIBEIRO", genero: "Feminino", cidade: "Cuiabá", idade: "41", status: "confirmado" },
+            { data: "20/08/2025", email: "manoeldj046@gmail.com", tipo: "Sem Acompanhante", nome: "Manoel do C. carvalho", genero: "Masculino", cidade: "Cuiabá", idade: "56", status: "confirmado" },
+            { data: "20/08/2025", email: "alexfirmino2580@gmail.com", tipo: "Sem Acompanhante", nome: "Alex Franklin Firmino Silva", genero: "Masculino", cidade: "Cuiabá", idade: "45", status: "confirmado" },
+            { data: "20/08/2025", email: "robertocarlosribeiro100@gmail.com", tipo: "Sem Acompanhante", nome: "Roberto Carlos Ribeiro", genero: "Masculino", cidade: "Cuiabá", idade: "48", status: "confirmado" },
+            { data: "20/08/2025", email: "llbarros97@gmail.com", tipo: "Sem Acompanhante", nome: "LUCIANO LARA DE BARROS", genero: "Masculino", cidade: "Cuiabá", idade: "52", status: "confirmado" },
+            { data: "21/08/2025", email: "mcpcamper@gmail.com", tipo: "Sem Acompanhante", nome: "Marcello C Pereira", genero: "Masculino", cidade: "Cuiabá", idade: "51", status: "confirmado" },
+            { data: "21/08/2025", email: "kazi.piresrodrigues5@gmail.com", tipo: "Sem Acompanhante", nome: "Izak Pires Rodrigues", genero: "Masculino", cidade: "Cuiabá", idade: "48", status: "confirmado" },
+            { data: "21/08/2025", email: "krusqueviskrusquevis@gmail.com", tipo: "Sem Acompanhante", nome: "Cristian Krusquevis Silva", genero: "Masculino", cidade: "Cuiabá", idade: "38", status: "confirmado" },
+            { data: "21/08/2025", email: "kellentati3@gmail.com", tipo: "Sem Acompanhante", nome: "Kellen Tatiana", genero: "Feminino", cidade: "Cuiabá", idade: "45", status: "confirmado" },
+            { data: "22/08/2025", email: "almeidamentz@gmail.com", tipo: "Sem Acompanhante", nome: "João Guilherme Aguiar Queiroz", genero: "Masculino", cidade: "Cuiabá", idade: "20", status: "confirmado" },
+            { data: "22/08/2025", email: "thaysinha.ferh@gmail.com", tipo: "Sem Acompanhante", nome: "Thays fernanda ribeiro freitas soares", genero: "Feminino", cidade: "Cuiabá", idade: "30", status: "confirmado" },
+            { data: "23/08/2025", email: "luizeduardosds@gmail.com", tipo: "Sem Acompanhante", nome: "Luiz eduardo Soares da silva", genero: "Masculino", cidade: "Cuiabá", idade: "31", status: "confirmado" },
+            { data: "24/08/2025", email: "elianac.carvalho30@gmail.com", tipo: "Sem Acompanhante", nome: "Eliana Cordeiro de Carvalho", genero: "Feminino", cidade: "Cuiabá", idade: "47", status: "confirmado" },
+            { data: "24/08/2025", email: "elianac.carvalho30@gmail.com", tipo: "Sem Acompanhante", nome: "Victor Hugo Carvalho Rondon", genero: "Masculino", cidade: "Cuiabá", idade: "29", status: "confirmado" },
+            { data: "24/08/2025", email: "dionelimaeng@gmail.com", tipo: "Sem Acompanhante", nome: "Dione Pereira De Lima", genero: "Feminino", cidade: "Cuiabá", idade: "54", status: "confirmado" },
+            { data: "25/08/2025", email: "engflorestal.jessika@gmail.com", tipo: "Sem Acompanhante", nome: "Jéssika Cristina Nascente", genero: "Feminino", cidade: "Cuiabá", idade: "34", status: "confirmado" },
+            { data: "25/08/2025", email: "engflorestal.jessika@gmail.com", tipo: "Sem Acompanhante", nome: "Renato Sagula Pessoa de Melo", genero: "Masculino", cidade: "Cuiabá", idade: "34", status: "confirmado" },
+            { data: "26/08/2025", email: "debora.rp96@gmail.com", tipo: "Sem Acompanhante", nome: "Maria Jose Alencar Bueno", genero: "Feminino", cidade: "Cuiabá", idade: "57", status: "confirmado" },
+            { data: "18/08/2025", email: "almeidamentz@gmail.com", tipo: "Sem Acompanhante", nome: "Helton Almeida", genero: "Masculino", cidade: "Várzea Grande", idade: "43", status: "confirmado" },
+            { data: "18/08/2025", email: "anacfgc@gmail.com", tipo: "Sem Acompanhante", nome: "ANA Claudia Falcão", genero: "Feminino", cidade: "Poconé", idade: "55", status: "confirmado" },
+            { data: "18/08/2025", email: "carlosalbertodaguia@gmail.com", tipo: "Sem Acompanhante", nome: "Carlos Alberto da Guia", genero: "Masculino", cidade: "Poconé", idade: "42", status: "confirmado" },
+            { data: "18/08/2025", email: "mariaxaparecida39@gmail.com", tipo: "Sem Acompanhante", nome: "Maria Aparecida Xavier", genero: "Feminino", cidade: "Várzea Grande", idade: "55", status: "confirmado" },
+            { data: "18/08/2025", email: "conceicaoc440@gmail.com", tipo: "Sem Acompanhante", nome: "Benedita Conceição da Cunha", genero: "Feminino", cidade: "Poconé", idade: "61", status: "confirmado" },
+            { data: "18/08/2025", email: "cfalcao19@hotmail.com", tipo: "Sem Acompanhante", nome: "Carlina Falcão", genero: "Feminino", cidade: "Poconé", idade: "63", status: "confirmado" },
+            { data: "18/08/2025", email: "claudineyrm@gmail.com", tipo: "Sem Acompanhante", nome: "Claudiney Marques", genero: "Masculino", cidade: "Várzea Grande", idade: "52", status: "confirmado" },
+            { data: "18/08/2025", email: "rozianemoraes06629@gmail.com", tipo: "Sem Acompanhante", nome: "ROZIANE CRISTINA DE MORAES DONDA", genero: "Feminino", cidade: "Poconé", idade: "55", status: "confirmado" },
+            { data: "18/08/2025", email: "vanderleiconceicaopereira@gmail.com", tipo: "Sem Acompanhante", nome: "Vanderlei conceição pereira", genero: "Masculino", cidade: "Várzea Grande", idade: "46", status: "confirmado" },
+            { data: "18/08/2025", email: "rozianemoraes06629@gmail.com", tipo: "Sem Acompanhante", nome: "JOSÉ EDUARDO DONDA", genero: "Masculino", cidade: "Poconé", idade: "64", status: "confirmado" },
+            { data: "18/08/2025", email: "alessandra10sillvaa@gmail.com", tipo: "Sem Acompanhante", nome: "Danilo Soares da silva", genero: "Masculino", cidade: "Várzea Grande", idade: "29", status: "confirmado" },
+            { data: "18/08/2025", email: "rebelloguga8@gmail.com", tipo: "Sem Acompanhante", nome: "Evandro Thiago da Costa Rebello", genero: "Masculino", cidade: "Várzea Grande", idade: "39", status: "confirmado" },
+            { data: "18/08/2025", email: "kedmanregina01@hotmail.com", tipo: "Sem Acompanhante", nome: "Kedman Regina de Souza Gomes Rondon", genero: "Feminino", cidade: "Poconé", idade: "52", status: "confirmado" },
+            { data: "18/08/2025", email: "patrickmengarda0@gmail.com", tipo: "Sem Acompanhante", nome: "Patrick michel mengarda", genero: "Masculino", cidade: "Várzea Grande", idade: "34", status: "confirmado" },
+            { data: "18/08/2025", email: "angeloalves279@gmail.com", tipo: "Sem Acompanhante", nome: "João ANGELO DA Silva", genero: "Masculino", cidade: "Várzea Grande", idade: "51", status: "confirmado" },
+            { data: "18/08/2025", email: "luizggs10@gmail.com", tipo: "Sem Acompanhante", nome: "LUIZ GUSTAVO GUIMARÃES SILVA", genero: "Masculino", cidade: "Poconé", idade: "34", status: "confirmado" },
+            { data: "18/08/2025", email: "leonardolevimar15@gmail.com", tipo: "Sem Acompanhante", nome: "Leonardo levimar de melo", genero: "Masculino", cidade: "Várzea Grande", idade: "29", status: "confirmado" },
+            { data: "18/08/2025", email: "rondonjoanabeneditadasilvarond@gmail.com", tipo: "Sem Acompanhante", nome: "Joana Benedita Da Silva Rondon", genero: "Feminino", cidade: "Poconé", idade: "47", status: "confirmado" },
+            { data: "18/08/2025", email: "anecy.queirozs@gmail.com", tipo: "Sem Acompanhante", nome: "Anecy Queiroz", genero: "Feminino", cidade: "Poconé", idade: "47", status: "confirmado" },
+            { data: "18/08/2025", email: "aelcio376@gmail.com", tipo: "Sem Acompanhante", nome: "Elcio de Almeida Souza", genero: "Masculino", cidade: "Poconé", idade: "51", status: "confirmado" },
+            { data: "18/08/2025", email: "domingasgomes1970@gmail.com", tipo: "Sem Acompanhante", nome: "Domingas Gomes Gomes da silva", genero: "Feminino", cidade: "Poconé", idade: "55", status: "confirmado" },
+            { data: "18/08/2025", email: "lauramgpaes@gmail.com", tipo: "Sem Acompanhante", nome: "Laura Regina Paes de Arruda", genero: "Feminino", cidade: "Poconé", idade: "55", status: "confirmado" },
+            { data: "18/08/2025", email: "suelicas3teste@gmail.com", tipo: "Sem Acompanhante", nome: "Sueli Castro", genero: "Feminino", cidade: "Várzea Grande", idade: "55", status: "confirmado" },
+            { data: "18/08/2025", email: "marilzaaguiaroliveira@gmail.com", tipo: "Sem Acompanhante", nome: "Marilza Aguiar de Oliveira", genero: "Feminino", cidade: "Várzea Grande", idade: "60", status: "confirmado" },
+            { data: "18/08/2025", email: "jana853santos@gmail.com", tipo: "Sem Acompanhante", nome: "Janaína dos Santos Almeida", genero: "Feminino", cidade: "Poconé", idade: "40", status: "confirmado" },
+            { data: "18/08/2025", email: "carinecamposs@hotmail.com", tipo: "Sem Acompanhante", nome: "Carine de Campos Silva", genero: "Feminino", cidade: "Nossa Senhora do Livramento", idade: "34", status: "confirmado" },
+            { data: "18/08/2025", email: "andreasempiofaria.10@gmail.com", tipo: "Sem Acompanhante", nome: "Andrea SÊMPIO Faria", genero: "Feminino", cidade: "Várzea Grande", idade: "51", status: "confirmado" },
+            { data: "18/08/2025", email: "brasilsalesjunior@gmail.com", tipo: "Sem Acompanhante", nome: "Brasil Sales Junior", genero: "Masculino", cidade: "Poconé", idade: "64", status: "confirmado" },
+            { data: "18/08/2025", email: "joelsonmarques476@gmail.com", tipo: "Sem Acompanhante", nome: "Joelson marques da Silva", genero: "Masculino", cidade: "Poconé", idade: "48", status: "confirmado" },
+            { data: "18/08/2025", email: "moveislima2@gmail.com", tipo: "Sem Acompanhante", nome: "Carlos Alberto de Lima Moraes", genero: "Masculino", cidade: "Várzea Grande", idade: "55", status: "confirmado" },
+            { data: "18/08/2025", email: "thiago.a3325@gmail.com", tipo: "Sem Acompanhante", nome: "Elber Thiago Alves Ribeiro", genero: "Masculino", cidade: "Várzea Grande", idade: "33", status: "confirmado" },
+            { data: "19/08/2025", email: "jdoadv@gmail.com", tipo: "Sem Acompanhante", nome: "Fernanda Cristina de Ribeiro Missorino", genero: "Feminino", cidade: "Várzea Grande", idade: "43", status: "confirmado" },
+            { data: "19/08/2025", email: "lina.pop@hotmail.com", tipo: "Sem Acompanhante", nome: "Gonçalina do Carmo e souza", genero: "Feminino", cidade: "Poconé", idade: "47", status: "confirmado" },
+            { data: "19/08/2025", email: "jacque.avlis@gmail.com", tipo: "Sem Acompanhante", nome: "Jacqueline E.Santo da Silva", genero: "Feminino", cidade: "Várzea Grande", idade: "44", status: "confirmado" },
+            { data: "19/08/2025", email: "renatinhamorais15@hotmail.com", tipo: "Sem Acompanhante", nome: "Renata Nunes Morais", genero: "Feminino", cidade: "Nossa Senhora do Livramento", idade: "33", status: "confirmado" },
+            { data: "19/08/2025", email: "renatinhamorais15@hotmail.com", tipo: "Sem Acompanhante", nome: "Celso Fernando Carneiro Felicio", genero: "Masculino", cidade: "Nossa Senhora do Livramento", idade: "36", status: "confirmado" },
+            { data: "19/08/2025", email: "renatinhamorais15@hotmail.com", tipo: "Sem Acompanhante", nome: "José Otacilio da Silva", genero: "Masculino", cidade: "Nossa Senhora do Livramento", idade: "53", status: "confirmado" },
+            { data: "19/08/2025", email: "alinepad083@gmail.com", tipo: "Sem Acompanhante", nome: "Aline Paula dos Santos", genero: "Feminino", cidade: "Várzea Grande", idade: "47", status: "confirmado" },
+            { data: "19/08/2025", email: "angeloalves279@gmail.com", tipo: "Sem Acompanhante", nome: "Elisangela Silva de Jesus", genero: "Feminino", cidade: "Várzea Grande", idade: "47", status: "confirmado" },
+            { data: "19/08/2025", email: "jucimeirecampos01@gmail.com", tipo: "Sem Acompanhante", nome: "Leonardo Antônio de Souza", genero: "Masculino", cidade: "Várzea Grande", idade: "31", status: "confirmado" },
+            { data: "19/08/2025", email: "eliteestruturasmetalicas@gmail.com", tipo: "Sem Acompanhante", nome: "Vinicius Campos de Barros", genero: "Masculino", cidade: "Várzea Grande", idade: "27", status: "confirmado" },
+            { data: "19/08/2025", email: "carvalhofilhoary@gmail.com", tipo: "Sem Acompanhante", nome: "Ary de Carvalho Filho", genero: "Masculino", cidade: "Nossa Senhora do Livramento", idade: "43", status: "confirmado" },
+            { data: "19/08/2025", email: "adrianasiqueira747@gmail.com", tipo: "Sem Acompanhante", nome: "Adriana siqueira", genero: "Feminino", cidade: "Várzea Grande", idade: "48", status: "confirmado" },
+            { data: "19/08/2025", email: "izabelpalmeirense03@gmail.com", tipo: "Sem Acompanhante", nome: "Izabel Antônia de Souza", genero: "Feminino", cidade: "Poconé", idade: "52", status: "confirmado" },
+            { data: "19/08/2025", email: "goncalomilitino@gmail.com", tipo: "Sem Acompanhante", nome: "Gonçalo militino da Silva", genero: "Masculino", cidade: "Várzea Grande", idade: "42", status: "confirmado" },
+            { data: "19/08/2025", email: "taynapompeu4@gmail.com", tipo: "Sem Acompanhante", nome: "Tayná Pompeu Rodrigues", genero: "Feminino", cidade: "Várzea Grande", idade: "28", status: "confirmado" },
+            { data: "19/08/2025", email: "claudiomagnodossantos9@gmail.com", tipo: "Sem Acompanhante", nome: "Claudio Magno Dos Santos", genero: "Masculino", cidade: "Várzea Grande", idade: "47", status: "confirmado" },
+            { data: "19/08/2025", email: "manoangelo89@gmail.com", tipo: "Sem Acompanhante", nome: "Roberto Barbosa Razuk", genero: "Masculino", cidade: "Nossa Senhora do Livramento", idade: "60", status: "confirmado" },
+            { data: "19/08/2025", email: "cguia923@gmail.com", tipo: "Sem Acompanhante", nome: "Rozinete dos Santos Almeida", genero: "Feminino", cidade: "Poconé", idade: "39", status: "confirmado" },
+            { data: "19/08/2025", email: "maicombentolacerda@gmail.com", tipo: "Sem Acompanhante", nome: "Maicon Antônio Lacerda bento", genero: "Masculino", cidade: "Tangará da Serra", idade: "40", status: "confirmado" },
+            { data: "19/08/2025", email: "giorgewip@gmail.com", tipo: "Sem Acompanhante", nome: "Cláudia Santana Gomes Daeuble", genero: "Feminino", cidade: "Tangará da Serra", idade: "49", status: "confirmado" },
+            { data: "19/08/2025", email: "evila.costa@hotmail.com", tipo: "Sem Acompanhante", nome: "Évila Costa e silva", genero: "Feminino", cidade: "Poconé", idade: "42", status: "confirmado" },
+            { data: "19/08/2025", email: "giorgewip@gmail.com", tipo: "Sem Acompanhante", nome: "Camila Gomes Daeuble", genero: "Feminino", cidade: "Tangará da Serra", idade: "15", status: "pendente" },
+            { data: "19/08/2025", email: "neneinfantino@gmail.com", tipo: "Sem Acompanhante", nome: "Lucilene Rosalha Infantino Gonçalves", genero: "Feminino", cidade: "Nossa Senhora do Livramento", idade: "53", status: "confirmado" },
+            { data: "19/08/2025", email: "joaopedroramosdasilva82@gmail.com", tipo: "Sem Acompanhante", nome: "João Pedro Ramos da Silva", genero: "Masculino", cidade: "Nossa Senhora do Livramento", idade: "16", status: "pendente" },
+            { data: "19/08/2025", email: "ecotur.ds@gmail.com", tipo: "Sem Acompanhante", nome: "Domingas Ribeiro da Silva Pereira", genero: "Feminino", cidade: "Poconé", idade: "51", status: "confirmado" },
+            { data: "19/08/2025", email: "rosamalenaadv@gmail.com", tipo: "Sem Acompanhante", nome: "Rosa Malena da Cruz", genero: "Feminino", cidade: "Várzea Grande", idade: "62", status: "confirmado" },
+            { data: "19/08/2025", email: "ecotur.ds@gmail.com", tipo: "Sem Acompanhante", nome: "Claudenil Lemes Silva", genero: "Masculino", cidade: "Poconé", idade: "45", status: "confirmado" },
+            { data: "19/08/2025", email: "dayrojass25@gmail.com", tipo: "Sem Acompanhante", nome: "Annier Dayanna Rojas da Conceição", genero: "Feminino", cidade: "Poconé", idade: "37", status: "confirmado" },
+            { data: "20/08/2025", email: "alexmoraisfer9@gmail.com", tipo: "Sem Acompanhante", nome: "Alex Morais", genero: "Masculino", cidade: "Porto Esperidião", idade: "46", status: "confirmado" },
+            { data: "20/08/2025", email: "alexmoraisfer9@gmail.com", tipo: "Sem Acompanhante", nome: "Simone Marques", genero: "Feminino", cidade: "Porto Esperidião", idade: "39", status: "confirmado" },
+            { data: "20/08/2025", email: "isabellyjardin10@gmail.com", tipo: "Sem Acompanhante", nome: "Isabelly jardin Pereira", genero: "Feminino", cidade: "Várzea Grande", idade: "15", status: "pendente" },
+            { data: "20/08/2025", email: "isabellyjardin10@gmail.com", tipo: "Sem Acompanhante", nome: "Daffini Jardim Silva", genero: "Feminino", cidade: "Várzea Grande", idade: "37", status: "confirmado" },
+            { data: "20/08/2025", email: "engenheiraaryanne@gmail.com", tipo: "Sem Acompanhante", nome: "Aryanne Oliveira dos Santos Torrilhas", genero: "Feminino", cidade: "Várzea Grande", idade: "38", status: "confirmado" },
+            { data: "20/08/2025", email: "vanessa.sabbadini@edu.mt.gov.br", tipo: "Sem Acompanhante", nome: "Vanessa almeida sabbadini", genero: "Feminino", cidade: "Várzea Grande", idade: "34", status: "confirmado" },
+            { data: "20/08/2025", email: "eletrotecnicadecio@gmail.com", tipo: "Sem Acompanhante", nome: "Décio Rodrigues Pereira", genero: "Masculino", cidade: "Jangada", idade: "60", status: "confirmado" },
+            { data: "20/08/2025", email: "jaimesebastiao598@gmail.com", tipo: "Sem Acompanhante", nome: "Sebastiao jaime amorim pinto", genero: "Masculino", cidade: "Poconé", idade: "56", status: "confirmado" },
+            { data: "20/08/2025", email: "valpresentesvg@gmail.com", tipo: "Sem Acompanhante", nome: "Joederson Candido", genero: "Masculino", cidade: "Várzea Grande", idade: "43", status: "confirmado" },
+            { data: "20/08/2025", email: "1.francismary@gmail.com", tipo: "Sem Acompanhante", nome: "Francimary Souza", genero: "Feminino", cidade: "Várzea Grande", idade: "41", status: "confirmado" },
+            { data: "20/08/2025", email: "matheussouzademiranda@gmail.com", tipo: "Sem Acompanhante", nome: "Matheus Souza de Miranda", genero: "Masculino", cidade: "Porto Esperidião", idade: "19", status: "confirmado" },
+            { data: "20/08/2025", email: "darcilene_oliveira@hotmail.com", tipo: "Sem Acompanhante", nome: "Darcilene Pereira de Oliveira", genero: "Feminino", cidade: "Várzea Grande", idade: "47", status: "confirmado" },
+            { data: "20/08/2025", email: "1.francismary@gmail.com", tipo: "Sem Acompanhante", nome: "Jorge Giimercino", genero: "Masculino", cidade: "Várzea Grande", idade: "64", status: "confirmado" },
+            { data: "20/08/2025", email: "vieiradaianny532@gmail.com", tipo: "Sem Acompanhante", nome: "Daianny Vieira da Silva", genero: "Feminino", cidade: "Nossa Senhora do Livramento", idade: "37", status: "confirmado" },
+            { data: "21/08/2025", email: "elizeuamancio46@gmail.com", tipo: "Sem Acompanhante", nome: "Elizeu Amâncio Rodrigues", genero: "Masculino", cidade: "Poconé", idade: "37", status: "confirmado" },
+            { data: "21/08/2025", email: "larissaprado936@gmail.com", tipo: "Sem Acompanhante", nome: "Larissa Dayane Ferreira do prado", genero: "Feminino", cidade: "Nossa Senhora do Livramento", idade: "32", status: "confirmado" },
+            { data: "21/08/2025", email: "larissaprado936@gmail.com", tipo: "Sem Acompanhante", nome: "Edilberto José da costa", genero: "Masculino", cidade: "Nossa Senhora do Livramento", idade: "48", status: "confirmado" },
+            { data: "21/08/2025", email: "valneinf@gmail.com", tipo: "Sem Acompanhante", nome: "Marcos Antônio da Silva", genero: "Masculino", cidade: "Tangará da Serra", idade: "49", status: "confirmado" },
+            { data: "21/08/2025", email: "jackline.duarte93@gmail.com", tipo: "Sem Acompanhante", nome: "Jackline Duarte da Silva", genero: "Feminino", cidade: "Poconé", idade: "32", status: "confirmado" },
+            { data: "21/08/2025", email: "crispimrr2018@gmail.com", tipo: "Sem Acompanhante", nome: "Rosenildo Rocha Mendes", genero: "Masculino", cidade: "Porto Esperidião", idade: "61", status: "confirmado" },
+            { data: "21/08/2025", email: "esterkaio9@gmail.com", tipo: "Sem Acompanhante", nome: "Ednalva Maria de Sousa", genero: "Feminino", cidade: "Várzea Grande", idade: "42", status: "confirmado" },
+            { data: "21/08/2025", email: "devidcosta747@gmail.com", tipo: "Sem Acompanhante", nome: "Devid costa sousa", genero: "Masculino", cidade: "Nossa Senhora do Livramento", idade: "33", status: "confirmado" },
+            { data: "21/08/2025", email: "prof.patricia.quimica@gmail.com", tipo: "Sem Acompanhante", nome: "Patricia Alechandra Guilherme", genero: "Feminino", cidade: "Tangará da Serra", idade: "53", status: "confirmado" },
+            { data: "21/08/2025", email: "lucianosantos252516@gmail.com", tipo: "Sem Acompanhante", nome: "luciano dos Santos Assis", genero: "Masculino", cidade: "Chapada dos Guimarães", idade: "36", status: "confirmado" },
+            { data: "21/08/2025", email: "claudineia0802@gmail.com", tipo: "Sem Acompanhante", nome: "Claudinéia de Souza Vale Santos", genero: "Feminino", cidade: "Várzea Grande", idade: "42", status: "confirmado" },
+            { data: "21/08/2025", email: "claudineia0802@gmail.com", tipo: "Sem Acompanhante", nome: "Márcio Aparecido dos Santos", genero: "Masculino", cidade: "Várzea Grande", idade: "43", status: "confirmado" },
+            { data: "21/08/2025", email: "dasilvavaldecir123@gmail.com", tipo: "Sem Acompanhante", nome: "Valdecir Da Silva", genero: "Masculino", cidade: "Várzea Grande", idade: "63", status: "confirmado" },
+            { data: "21/08/2025", email: "lendariogabrielsk97@gmail.com", tipo: "Sem Acompanhante", nome: "Gabriel Ferreira Barbosa", genero: "Masculino", cidade: "Chapada dos Guimarães", idade: "28", status: "confirmado" },
+            { data: "22/08/2025", email: "dayanevictor20@gmail.com", tipo: "Sem Acompanhante", nome: "Dayane Victor", genero: "Feminino", cidade: "Várzea Grande", idade: "36", status: "confirmado" },
+            { data: "22/08/2025", email: "unidadetowervg@gmail.com", tipo: "Sem Acompanhante", nome: "Yves Aparecido Monteiro Maciel", genero: "Masculino", cidade: "Nossa Senhora do Livramento", idade: "27", status: "confirmado" },
+            { data: "22/08/2025", email: "elitonroque1@gmail.com", tipo: "Sem Acompanhante", nome: "Eliton Silva Roque", genero: "Masculino", cidade: "Várzea Grande", idade: "44", status: "confirmado" },
+            { data: "22/08/2025", email: "jdoadv@gmail.com", tipo: "Sem Acompanhante", nome: "João Dalvo de oliveira neto", genero: "Masculino", cidade: "Várzea Grande", idade: "14", status: "pendente" },
+            { data: "22/08/2025", email: "alessandravarzeagrande@gmail.com", tipo: "Sem Acompanhante", nome: "Nayrany Santos Cunha de Santana", genero: "Feminino", cidade: "Várzea Grande", idade: "33", status: "confirmado" },
+            { data: "23/08/2025", email: "adzaelsantos02@gmail.com", tipo: "Sem Acompanhante", nome: "Adzael Santos", genero: "Masculino", cidade: "Várzea Grande", idade: "20", status: "confirmado" },
+            { data: "23/08/2025", email: "kamilly14122002@gmail.com", tipo: "Sem Acompanhante", nome: "Laudyleia Carvalho de Menezes", genero: "Feminino", cidade: "Várzea Grande", idade: "42", status: "confirmado" },
+            { data: "24/08/2025", email: "prof.patricia.quimica@gmail.com", tipo: "Sem Acompanhante", nome: "Sônia Maria Barbosa Zilio", genero: "Feminino", cidade: "Tangará da Serra", idade: "54", status: "confirmado" },
+            { data: "24/08/2025", email: "nicolaspatrik307@gmail.com", tipo: "Sem Acompanhante", nome: "Nicolas Patrick pereira lima", genero: "Masculino", cidade: "Várzea Grande", idade: "30", status: "confirmado" },
+            { data: "25/08/2025", email: "valdeir.mv@gmail.com", tipo: "Sem Acompanhante", nome: "Valdeir Silva de Araújo", genero: "Masculino", cidade: "Várzea Grande", idade: "48", status: "confirmado" },
+            { data: "25/08/2025", email: "patoaraujo588@gmail.com", tipo: "Sem Acompanhante", nome: "Valdeir Júnior Batista de Araújo", genero: "Masculino", cidade: "Várzea Grande", idade: "22", status: "confirmado" },
+            { data: "26/08/2025", email: "prof.mmpnascente@gmail.com", tipo: "Sem Acompanhante", nome: "MARIA MADALENA PINTO NASCENTE", genero: "Feminino", cidade: "Várzea Grande", idade: "58", status: "confirmado" },
+            { data: "26/08/2025", email: "alexdhavi2018@gmail.com", tipo: "Sem Acompanhante", nome: "Alex Ferreira da Silva", genero: "Masculino", cidade: "Poconé", idade: "38", status: "confirmado" },
+            { data: "26/08/2025", email: "leonitemendesdossantoss@gmail.com", tipo: "Sem Acompanhante", nome: "Leonite Mendes dos Santos", genero: "Feminino", cidade: "Poconé", idade: "61", status: "confirmado" },
+            { data: "26/08/2025", email: "crissyamoraes@gmail.com", tipo: "Sem Acompanhante", nome: "CRISSYA MORAES", genero: "Feminino", cidade: "Várzea Grande", idade: "34", status: "confirmado" },
+            { data: "26/08/2025", email: "crissyamoraes@gmail.com", tipo: "Sem Acompanhante", nome: "WELLINGTON OLIVEIRA", genero: "Masculino", cidade: "Várzea Grande", idade: "35", status: "confirmado" },
+            { data: "18/08/2025", email: "ney.f.sid@gmail.com", tipo: "Com Acompanhante", nome: "Sidney frança da Silva", genero: "Masculino", cidade: "Cuiabá", idade: "46", status: "confirmado" },
+            { data: "19/08/2025", email: "paivarondongidiao@gmail.com", tipo: "Com Acompanhante", nome: "Gidiao paiva Rondon", genero: "Masculino", cidade: "Cuiabá", idade: "39", status: "confirmado" },
+            { data: "19/08/2025", email: "suelenadm07@gmail.com", tipo: "Com Acompanhante", nome: "Suelen Maria de Santana", genero: "Feminino", cidade: "Cuiabá", idade: "37", status: "confirmado" },
+            { data: "24/08/2025", email: "marcelo.r.boa@gmail.com", tipo: "Com Acompanhante", nome: "Cirlene Venturoli boa", genero: "Feminino", cidade: "Porto Esperidião", idade: "57", status: "confirmado" },
+            { data: "18/08/2025", email: "francisco.assuncao@edu.mt.gov.br", tipo: "Com Acompanhante", nome: "Francisco Assis de Assunção", genero: "Masculino", cidade: "Nossa Senhora do Livramento", idade: "57", status: "confirmado" },
+            { data: "18/08/2025", email: "pp55silva@hotmail.com", tipo: "Com Acompanhante", nome: "Paulo Pinheiro da Silva", genero: "Masculino", cidade: "Várzea Grande", idade: "51", status: "confirmado" },
+            { data: "18/08/2025", email: "querubimserv@gmail.com", tipo: "Com Acompanhante", nome: "Bruno Maylon Marques Ferreira", genero: "Masculino", cidade: "Cuiabá", idade: "37", status: "confirmado" },
+            { data: "19/08/2025", email: "romildotorres145@gmail.com", tipo: "Com Acompanhante", nome: "Romildo torres lopes", genero: "Masculino", cidade: "Cuiabá", idade: "58", status: "confirmado" },
+            { data: "18/08/2025", email: "lucyanasantos1175@gmail.com", tipo: "Com Acompanhante", nome: "Lucyana Aparecida dos Santos", genero: "Feminino", cidade: "Poconé", idade: "43", status: "confirmado" },
+            { data: "18/08/2025", email: "eder92770466@gmail.com", tipo: "Com Acompanhante", nome: "João Victor Aguiar Queiroz", genero: "Masculino", cidade: "Cuiabá", idade: "16", status: "pendente" },
+            { data: "18/08/2025", email: "jucimeirecampos01@gmail.com", tipo: "Com Acompanhante", nome: "Jucimeire campos", genero: "Feminino", cidade: "Várzea Grande", idade: "51", status: "confirmado" },
+            { data: "18/08/2025", email: "jullymerycuiaba@gmail.com", tipo: "Com Acompanhante", nome: "Julymere Arruda Correa", genero: "Feminino", cidade: "Cuiabá", idade: "38", status: "confirmado" },
+            { data: "18/08/2025", email: "jussaraf796@gmail.com", tipo: "Com Acompanhante", nome: "Jussara Fonseca", genero: "Feminino", cidade: "Cuiabá", idade: "64", status: "confirmado" },
+            { data: "18/08/2025", email: "lucienebueno61@gmail.com", tipo: "Com Acompanhante", nome: "Luciene Benedita Bueno", genero: "Feminino", cidade: "Cuiabá", idade: "42", status: "confirmado" },
+            { data: "18/08/2025", email: "eltonneves20@gmail.com", tipo: "Com Acompanhante", nome: "Elton neves", genero: "Masculino", cidade: "Várzea Grande", idade: "42", status: "confirmado" },
+            { data: "19/08/2025", email: "josuepocone@gmail.com", tipo: "Com Acompanhante", nome: "Josue Mendes da Silva", genero: "Masculino", cidade: "Poconé", idade: "49", status: "confirmado" },
+            { data: "19/08/2025", email: "jurapintosilva83@gmail.com", tipo: "Com Acompanhante", nome: "Jurandir Pinto da Silva", genero: "Masculino", cidade: "Cuiabá", idade: "49", status: "confirmado" },
+            { data: "19/08/2025", email: "fiamcgomes@gmail.com", tipo: "Com Acompanhante", nome: "Maria Gomes Felix", genero: "Feminino", cidade: "Tangará da Serra", idade: "55", status: "confirmado" },
+            { data: "19/08/2025", email: "marcelo.vendasvga@gmail.com", tipo: "Com Acompanhante", nome: "Marcelo de lima", genero: "Masculino", cidade: "Várzea Grande", idade: "42", status: "confirmado" },
+            { data: "20/08/2025", email: "alessandrafinanceiro95@gmail.com", tipo: "Com Acompanhante", nome: "Alexandra M Furtado", genero: "Feminino", cidade: "Cuiabá", idade: "48", status: "confirmado" },
+            { data: "20/08/2025", email: "newcivicvg@gmail.com", tipo: "Com Acompanhante", nome: "Diego Caitano de souza", genero: "Masculino", cidade: "Várzea Grande", idade: "42", status: "confirmado" },
+            { data: "21/08/2025", email: "jdavidlopez84@gmail.com", tipo: "Com Acompanhante", nome: "José David Lopez Holguin", genero: "Masculino", cidade: "Tangará da Serra", idade: "41", status: "confirmado" },
+            { data: "21/08/2025", email: "martinsrosendo7@gmail.com", tipo: "Com Acompanhante", nome: "Rosendo Martins Teixeira Neto", genero: "Masculino", cidade: "Porto Esperidião", idade: "51", status: "confirmado" },
+            { data: "18/08/2025", email: "cwacaguinaldo@gmail.com", tipo: "Com Acompanhante", nome: "Carlos Aguinaldo Martins", genero: "Masculino", cidade: "Cuiabá", idade: "57", status: "confirmado" },
+            { data: "18/08/2025", email: "manoangelo89@gmail.com", tipo: "Com Acompanhante", nome: "Manoel Angelo Gonçalo Curado", genero: "Masculino", cidade: "Nossa Senhora do Livramento", idade: "36", status: "confirmado" },
+            { data: "18/08/2025", email: "gessomattapumeimpressao@gmail.com", tipo: "Com Acompanhante", nome: "Willames Goncalves", genero: "Masculino", cidade: "Várzea Grande", idade: "37", status: "confirmado" },
+            { data: "18/08/2025", email: "alessandra10sillvaa@gmail.com", tipo: "Com Acompanhante", nome: "Alessandra da Silva Moraes", genero: "Feminino", cidade: "Várzea Grande", idade: "28", status: "confirmado" },
+            { data: "18/08/2025", email: "maryaereges@gmail.com", tipo: "Com Acompanhante", nome: "Maria Aparecida de Souza Vieira", genero: "Feminino", cidade: "Cuiabá", idade: "33", status: "confirmado" },
+            { data: "18/08/2025", email: "adrianacelestrino27@gmail.com", tipo: "Com Acompanhante", nome: "Adriana Celestrino", genero: "Feminino", cidade: "Cuiabá", idade: "51", status: "confirmado" },
+            { data: "18/08/2025", email: "cleytondesa@hotmail.com", tipo: "Com Acompanhante", nome: "Cleyton de Sá Santos", genero: "Masculino", cidade: "Várzea Grande", idade: "65", status: "confirmado" },
+            { data: "18/08/2025", email: "necamaertins2018@gmail.com", tipo: "Com Acompanhante", nome: "Enair Regina Martins", genero: "Feminino", cidade: "Poconé", idade: "61", status: "confirmado" },
+            { data: "18/08/2025", email: "vilimadeandrade@gmail.com", tipo: "Com Acompanhante", nome: "Viviane Andrade", genero: "Feminino", cidade: "Várzea Grande", idade: "45", status: "confirmado" },
+            { data: "18/08/2025", email: "joilson.jcosta@gmail.com", tipo: "Com Acompanhante", nome: "Joilson José da costa", genero: "Masculino", cidade: "Cuiabá", idade: "54", status: "confirmado" },
+            { data: "18/08/2025", email: "moniquekar@gmail.com", tipo: "Com Acompanhante", nome: "Monique Karen Moraes Santosn", genero: "Feminino", cidade: "Cuiabá", idade: "46", status: "confirmado" },
+            { data: "18/08/2025", email: "lenemoreno01@gmail.com", tipo: "Com Acompanhante", nome: "Arlene Moreno", genero: "Feminino", cidade: "Várzea Grande", idade: "44", status: "confirmado" },
+            { data: "18/08/2025", email: "claudinei.gs@hotmail.com", tipo: "Com Acompanhante", nome: "Claudinei Pereira da Cruz", genero: "Masculino", cidade: "Cuiabá", idade: "48", status: "confirmado" },
+            { data: "18/08/2025", email: "tatianeldasilva@gmail.com", tipo: "Com Acompanhante", nome: "Tatiane Silva", genero: "Feminino", cidade: "Cuiabá", idade: "35", status: "confirmado" },
+            { data: "18/08/2025", email: "grazy.evolucaocontabil@gmail.com", tipo: "Com Acompanhante", nome: "Graziella Lopes Pereira", genero: "Feminino", cidade: "Várzea Grande", idade: "50", status: "confirmado" },
+            { data: "19/08/2025", email: "nauanaps@gmail.com", tipo: "Com Acompanhante", nome: "Nauana Paula da Silva", genero: "Feminino", cidade: "Várzea Grande", idade: "44", status: "confirmado" },
+            { data: "19/08/2025", email: "gilmarcardoso.vg@gmail.com", tipo: "Com Acompanhante", nome: "Gilmar de Souza Cardoso", genero: "Masculino", cidade: "Várzea Grande", idade: "56", status: "confirmado" },
+            { data: "19/08/2025", email: "valneinf@gmail.com", tipo: "Com Acompanhante", nome: "Valnei Nunes Ferreira", genero: "Masculino", cidade: "Tangará da Serra", idade: "57", status: "confirmado" },
+            { data: "19/08/2025", email: "valneinf@gmail.com", tipo: "Com Acompanhante", nome: "Simone Regina da Silva Nunes", genero: "Feminino", cidade: "Tangará da Serra", idade: "44", status: "confirmado" },
+            { data: "19/08/2025", email: "giorgewip@gmail.com", tipo: "Com Acompanhante", nome: "Giorge André Daeuble", genero: "Masculino", cidade: "Tangará da Serra", idade: "44", status: "confirmado" },
+            { data: "19/08/2025", email: "rmenezestiao@gmail.com", tipo: "Com Acompanhante", nome: "Rodrigo Menezes de Oliveira", genero: "Masculino", cidade: "Várzea Grande", idade: "36", status: "confirmado" },
+            { data: "19/08/2025", email: "rondonjoanabeneditadasilvarond@gmail.com", tipo: "Com Acompanhante", nome: "Oclea Carolina Da Silva Rondon", genero: "Feminino", cidade: "Poconé", idade: "48", status: "confirmado" },
+            { data: "19/08/2025", email: "marcelo.r.boa@gmail.com", tipo: "Com Acompanhante", nome: "Marcelo Rodrigues boa", genero: "Masculino", cidade: "Cuiabá", idade: "43", status: "confirmado" },
+            { data: "20/08/2025", email: "monyriapedro@gmail.com", tipo: "Com Acompanhante", nome: "Monyria nadja moraes dos santos", genero: "Feminino", cidade: "Cuiabá", idade: "43", status: "confirmado" },
+            { data: "20/08/2025", email: "crispimrr2018@gmail.com", tipo: "Com Acompanhante", nome: "Américo Evangelista Crispim", genero: "Masculino", cidade: "Porto Esperidião", idade: "58", status: "confirmado" },
+            { data: "21/08/2025", email: "ultrasoftsist@gmail.com", tipo: "Com Acompanhante", nome: "Fabricio Batista da Silva", genero: "Masculino", cidade: "Cuiabá", idade: "42", status: "confirmado" },
+            { data: "21/08/2025", email: "emsp.elza@gmail.com", tipo: "Com Acompanhante", nome: "Elza Moreira de Souza", genero: "Feminino", cidade: "Cuiabá", idade: "48", status: "confirmado" },
+            { data: "21/08/2025", email: "masamecba@gmail.com", tipo: "Com Acompanhante", nome: "Machsoell Saravy de Menezes", genero: "Masculino", cidade: "Cuiabá", idade: "47", status: "confirmado" },
+            { data: "21/08/2025", email: "goncoostta@gmail.com", tipo: "Com Acompanhante", nome: "Gonçalina Cristovam da Costa", genero: "Feminino", cidade: "Cuiabá", idade: "52", status: "confirmado" },
+            { data: "21/08/2025", email: "professor.alairvaladares@gmail.com", tipo: "Com Acompanhante", nome: "Alair Valadares da silva", genero: "Masculino", cidade: "Porto Esperidião", idade: "53", status: "confirmado" },
+            { data: "21/08/2025", email: "cida.cnp98@gmail.com", tipo: "Com Acompanhante", nome: "Maria Aparecida Aguiar de Oliveira", genero: "Feminino", cidade: "Várzea Grande", idade: "67", status: "confirmado" },
+            { data: "22/08/2025", email: "aldotunes77@gmail.com", tipo: "Com Acompanhante", nome: "Aldo Campos", genero: "Masculino", cidade: "Cuiabá", idade: "59", status: "confirmado" },
+            { data: "22/08/2025", email: "josenneto@pjc.mt.gov.br", tipo: "Com Acompanhante", nome: "José Delfino Neto", genero: "Masculino", cidade: "Cuiabá", idade: "53", status: "confirmado" },
+            { data: "25/08/2025", email: "barros4478@gmail.com", tipo: "Com Acompanhante", nome: "Luis Fernando de Barros Cardoso", genero: "Masculino", cidade: "Cuiabá", idade: "69", status: "confirmado" }
+        ];
+
+        document.getElementById('consultaForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value.trim().toLowerCase();
+            const resultados = dadosInscricoes.filter(item => item.email.toLowerCase() === email);
+            
+            // Esconder todos os elementos de resultado primeiro
+            document.getElementById('resultado').style.display = 'none';
+            document.getElementById('nenhumResultado').style.display = 'none';
+            document.getElementById('multiResultado').style.display = 'none';
             
             if (resultados.length === 0) {
-                noResults.style.display = 'block';
-                resultsTableContainer.style.display = 'none';
-                resultsCount.textContent = '0 inscrições encontradas';
+                // Nenhum resultado encontrado
+                document.getElementById('nenhumResultado').style.display = 'block';
+            } else if (resultados.length === 1) {
+                // Apenas um resultado
+                const inscricao = resultados[0];
+                
+                document.getElementById('nomeCompleto').textContent = inscricao.nome;
+                document.getElementById('dataInscricao').textContent = inscricao.data;
+                document.getElementById('genero').textContent = inscricao.genero;
+                document.getElementById('cidade').textContent = inscricao.cidade;
+                document.getElementById('idade').textContent = inscricao.idade + " anos";
+                document.getElementById('tipoInscricao').textContent = inscricao.tipo;
+                
+                const statusBadge = document.getElementById('status');
+                statusBadge.textContent = inscricao.status.charAt(0).toUpperCase() + inscricao.status.slice(1);
+                statusBadge.className = 'badge rounded-pill ';
+                
+                if (inscricao.status === 'confirmado') {
+                    statusBadge.classList.add('status-confirmado');
+                } else if (inscricao.status === 'pendente') {
+                    statusBadge.classList.add('status-pendente');
+                } else if (inscricao.status === 'cancelado') {
+                    statusBadge.classList.add('status-cancelado');
+                }
+                
+                document.getElementById('resultado').style.display = 'block';
             } else {
-                noResults.style.display = 'none';
-                resultsTableContainer.style.display = 'block';
-                resultsCount.textContent = `${resultados.length} inscrição(ões) encontrada(s)`;
+                // Múltiplos resultados
+                const inscricoesList = document.getElementById('inscricoesList');
+                inscricoesList.innerHTML = '';
                 
                 resultados.forEach(inscricao => {
-                    const row = document.createElement('tr');
+                    const statusClass = inscricao.status === 'confirmado' ? 'status-confirmado' : 
+                                      inscricao.status === 'pendente' ? 'status-pendente' : 
+                                      'status-cancelado';
                     
-                    // Determinar a classe de status
-                    let classeStatus = 'status-pendente';
-                    let textoStatus = 'pendente';
-                    
-                    if (inscricao.status === 'confirmado' || inscricao.Status === 'confirmado') {
-                        classeStatus = 'status-confirmado';
-                        textoStatus = 'confirmado';
-                    } else if (inscricao.status === 'cancelado' || inscricao.Status === 'cancelado') {
-                        classeStatus = 'status-cancelado';
-                        textoStatus = 'cancelado';
-                    }
-                    
-                    row.innerHTML = `
-                        <td>${inscricao.datainscriçăo || inscricao['Data de Inscrição'] || 'N/A'}</td>
-                        <td>${inscricao['Tipo da Inscriçăo'] || inscricao['Tipo de Inscrição'] || 'N/A'}</td>
-                        <td>${inscricao['Nome Completo'] || 'N/A'}</td>
-                        <td>${inscricao.Cidade || 'N/A'}</td>
-                        <td><span class="${classeStatus}">${textoStatus}</span></td>
+                    const card = document.createElement('div');
+                    card.className = 'card card-inscricao mb-3';
+                    card.innerHTML = `
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <p><span class="info-label">Nome:</span> ${inscricao.nome}</p>
+                                    <p><span class="info-label">Data:</span> ${inscricao.data}</p>
+                                    <p><span class="info-label">Tipo:</span> ${inscricao.tipo}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <p><span class="info-label">Cidade:</span> ${inscricao.cidade}</p>
+                                    <p><span class="info-label">Idade:</span> ${inscricao.idade} anos</p>
+                                    <p><span class="info-label">Status:</span> 
+                                        <span class="badge rounded-pill ${statusClass}">
+                                            ${inscricao.status.charAt(0).toUpperCase() + inscricao.status.slice(1)}
+                                        </span>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     `;
                     
-                    resultsBody.appendChild(row);
+                    inscricoesList.appendChild(card);
                 });
+                
+                document.getElementById('multiResultado').style.display = 'block';
             }
-            
-            resultsSection.style.display = 'block';
-            
-            // Rolagem suave para a seção de resultados
-            resultsSection.scrollIntoView({ behavior: 'smooth' });
-        }
+        });
     </script>
 </body>
 </html>
