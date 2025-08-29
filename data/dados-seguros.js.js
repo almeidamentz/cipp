@@ -14,6 +14,7 @@ const dadosInscricoes = [
     {"datainscriçăo":"18/08/2025","Endereço de e-mail":"janemeira.pereira@gmail.com","Tipo da Inscriçăo":"Sem Acompanhante","Nome Completo":"Jane meira","Gęnero":"Feminino","Cidade":"Cuiabá","Idade":"53","status":"confirmado"},
     {"datainscriçăo":"18/08/2025","Endereço de e-mail":"molinarilucass11@gmail.com","Tipo da Inscriçăo":"Sem Acompanhante","Nome Completo":"Lucas Molinari leal","Gęnero":"Masculino","Cidade":"Cuiabá","Idade":"30","status":"confirmado"},
     {"datainscriçăo":"18/08/2025","Endereço de e-mail":"moniquekar@gmail.com","Tipo da Inscriçăo":"Sem Acompanhante","Nome Completo":"Sidnei Luiz de Souza Bueno","Gęnero":"Masculino","Cidade":"Cuiabá","Idade":"43","status":"confirmado"},
+    {"datainscriçăo":"18/08/2025","Endereço de e-mail":"almeidamentz@gmail.com","Tipo da Inscriçăo":"Sem Acompanhante","Nome Completo":"Helton Almeida","Gęnero":"Masculino","Cidade":"Várzea Grande","Idade":"42","status":"confirmado"},
   
 
     // Adicione aqui TODOS os registros do CSV...
