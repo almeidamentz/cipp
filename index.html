@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Inscrição - 4º Pedal Pantaneiro</title>
+    <title>Consulta de Inscrição - Condomínio Rita Monteiro</title>
     <style>
         :root {
             --primary-color: #00796b;
@@ -234,16 +234,6 @@
             margin-right: 10px;
         }
         
-        .error-message {
-            background-color: #ffebee;
-            color: #c62828;
-            padding: 15px;
-            border-radius: 6px;
-            margin-bottom: 20px;
-            text-align: center;
-            display: none;
-        }
-        
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
@@ -281,14 +271,10 @@
     <div class="container">
         <header>
             <h1>Consulta de Inscrição</h1>
-            <p class="description">4º Pedal Pantaneiro - Informe seu e-mail para consultar suas inscrições</p>
+            <p class="description">Condomínio Rita Monteiro - Informe seu e-mail para consultar suas inscrições</p>
         </header>
         
         <section class="search-section">
-            <div id="errorMessage" class="error-message">
-                <p>Erro ao carregar os dados. Por favor, recarregue a página ou tente novamente mais tarde.</p>
-            </div>
-            
             <form id="searchForm" class="search-form">
                 <div class="form-group">
                     <label for="email">Endereço de E-mail</label>
@@ -332,17 +318,29 @@
         </section>
         
         <footer>
-            <p>Sistema de Consulta de Inscrições - 4º Pedal Pantaneiro &copy; 2025</p>
+            <p>Sistema de Consulta de Inscrições - Condomínio Rita Monteiro &copy; 2023</p>
         </footer>
     </div>
 
+    <!-- Carregar dados de forma segura de um arquivo externo -->
+    <script src="https://cdn.jsdelivr.net/gh/seuusuario/seurepositorio@main/dados-seguros.js"></script>
+    
     <script>
         // Variável para armazenar os resultados atuais
         let resultadosAtuais = [];
-        let dadosCarregados = true; // Sempre verdadeiro pois vamos buscar via API
 
-        // Configurar o evento de submit do formulário
+        // Aguardar até que os dados externos estejam carregados
         document.addEventListener('DOMContentLoaded', function() {
+            // Verificar se os dados foram carregados corretamente
+            if (typeof dadosInscricoes === 'undefined') {
+                console.error('Erro: Os dados não foram carregados corretamente.');
+                alert('Erro ao carregar os dados. Por favor, recarregue a página.');
+                return;
+            }
+            
+            console.log('Dados carregados com sucesso. Total de registros:', dadosInscricoes.length);
+            
+            // Configurar o evento de submit do formulário
             document.getElementById('searchForm').addEventListener('submit', function(e) {
                 e.preventDefault();
                 
@@ -364,25 +362,18 @@
                 searchButton.disabled = true;
                 searchButton.innerHTML = '<div class="loading"></div> Consultando...';
                 
-                // Buscar dados via API
-                buscarDadosPorEmail(email)
-                    .then(resultados => {
-                        resultadosAtuais = resultados;
-                        mostrarResultados(resultadosAtuais);
-                    })
-                    .catch(error => {
-                        console.error('Erro na consulta:', error);
-                        document.getElementById('errorMessage').style.display = 'block';
-                        document.getElementById('errorMessage').innerHTML = `
-                            <p>Erro na consulta: ${error.message}</p>
-                            <p>Por favor, tente novamente mais tarde.</p>
-                        `;
-                    })
-                    .finally(() => {
-                        // Restaurar botão
-                        searchButton.disabled = false;
-                        searchButton.innerHTML = 'Consultar Inscrição';
-                    });
+                // Simular um pequeno atraso para melhor experiência do usuário
+                setTimeout(() => {
+                    resultadosAtuais = dadosInscricoes.filter(inscricao => 
+                        inscricao['Endereço de e-mail'].toLowerCase() === email
+                    );
+                    
+                    mostrarResultados(resultadosAtuais);
+                    
+                    // Restaurar botão
+                    searchButton.disabled = false;
+                    searchButton.innerHTML = 'Consultar Inscrição';
+                }, 800);
             });
 
             document.getElementById('newSearchButton').addEventListener('click', function() {
@@ -391,7 +382,6 @@
                 
                 // Ocultar a seção de resultados
                 document.getElementById('resultsSection').style.display = 'none';
-                document.getElementById('errorMessage').style.display = 'none';
                 
                 // Rolagem suave para o topo
                 window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -400,35 +390,6 @@
                 document.getElementById('email').focus();
             });
         });
-
-        // Função para buscar dados por e-mail via API
-        async function buscarDadosPorEmail(email) {
-            try {
-                // Esta é uma API simulada - você precisará implementar um backend real
-                // Para teste, vamos usar um timeout para simular uma requisição
-                await new Promise(resolve => setTimeout(resolve, 1000));
-                
-                // Em uma implementação real, você faria:
-                // const response = await fetch('/api/consultar?email=' + encodeURIComponent(email));
-                // if (!response.ok) throw new Error('Erro na API');
-                // return await response.json();
-                
-                // Simulação de resposta da API
-                return [
-                    {
-                        dataInscricao: '18/08/2025',
-                        tipoInscricao: 'Sem Acompanhante',
-                        nomeCompleto: 'Exemplo de Usuário',
-                        cidade: 'Cuiabá',
-                        status: 'confirmado'
-                    }
-                ];
-                
-            } catch (error) {
-                console.error('Erro ao buscar dados:', error);
-                throw new Error('Não foi possível completar a consulta');
-            }
-        }
 
         function validarEmail(email) {
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -466,11 +427,11 @@
                     }
                     
                     row.innerHTML = `
-                        <td>${inscricao.dataInscricao || 'N/A'}</td>
-                        <td>${inscricao.tipoInscricao || 'N/A'}</td>
-                        <td>${inscricao.nomeCompleto || 'N/A'}</td>
-                        <td>${inscricao.cidade || 'N/A'}</td>
-                        <td><span class="${classeStatus}">${inscricao.status || 'N/A'}</span></td>
+                        <td>${inscricao.datainscriçăo}</td>
+                        <td>${inscricao['Tipo da Inscriçăo']}</td>
+                        <td>${inscricao['Nome Completo']}</td>
+                        <td>${inscricao.Cidade}</td>
+                        <td><span class="${classeStatus}">${inscricao.status}</span></td>
                     `;
                     
                     resultsBody.appendChild(row);
