@@ -16,7 +16,7 @@ const dadosInscricoes = [
     {"datainscriçăo":"18/08/2025","Endereço de e-mail":"moniquekar@gmail.com","Tipo da Inscriçăo":"Sem Acompanhante","Nome Completo":"Sidnei Luiz de Souza Bueno","Gęnero":"Masculino","Cidade":"Cuiabá","Idade":"43","status":"confirmado"},
     {"datainscriçăo":"18/08/2025","Endereço de e-mail":"almeidamentz@gmail.com","Tipo da Inscriçăo":"Sem Acompanhante","Nome Completo":"Helton Almeida","Gęnero":"Masculino","Cidade":"Várzea Grande","Idade":"42","status":"confirmado"},
 
-
+   {"datainscrição":"22/08/2025","Endereço de e-mail":"josenneto@pjc.mt.gov.br","Tipo da Inscrição":"Com Acompanhante","Nome Completo":"José Delfino Neto","Gênero","Gęnero":"Masculino","Cidade":"Cuiabá","Idade":"53","status":"confirmado"},
   
 
     // Adicione aqui TODOS os registros do CSV...
