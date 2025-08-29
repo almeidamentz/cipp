@@ -234,6 +234,16 @@
             margin-right: 10px;
         }
         
+        .error-message {
+            background-color: #ffebee;
+            color: var(--error-color);
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 15px;
+            text-align: center;
+            display: none;
+        }
+        
         @keyframes spin {
             to { transform: rotate(360deg); }
         }
@@ -282,6 +292,9 @@
                 </div>
                 <button type="submit" id="searchButton">Consultar Inscrição</button>
             </form>
+            <div id="errorMessage" class="error-message">
+                Erro ao carregar os dados. Por favor, recarregue a página.
+            </div>
         </section>
         
         <section id="resultsSection" class="results-section">
@@ -322,27 +335,72 @@
         </footer>
     </div>
 
-    <!-- Carregar dados do seu repositório GitHub -->
-    <script src="https://cdn.jsdelivr.net/gh/almeidamentz/cipp@main/data/dados-seguros.js"></script>
-    
     <script>
-        // Variável para armazenar os resultados atuais
+        // Variável para armazenar os dados das inscrições
+        let dadosInscricoes = [];
         let resultadosAtuais = [];
+        let dadosCarregados = false;
 
-        // Aguardar até que os dados externos estejam carregados
-        document.addEventListener('DOMContentLoaded', function() {
-            // Verificar se os dados foram carregados corretamente
-            if (typeof dadosInscricoes === 'undefined') {
-                console.error('Erro: Os dados não foram carregados corretamente.');
-                alert('Erro ao carregar os dados. Por favor, recarregue a página.');
-                return;
+        // Função para carregar os dados
+        async function carregarDados() {
+            try {
+                // Tentar carregar de diferentes fontes possíveis
+                const urls = [
+                    'https://raw.githubusercontent.com/almeidamentz/cipp/main/data/dados-seguros.js',
+                    'https://cdn.jsdelivr.net/gh/almeidamentz/cipp@main/data/dados-seguros.js',
+                    'data/dados-seguros.js'
+                ];
+                
+                let success = false;
+                
+                for (const url of urls) {
+                    try {
+                        const response = await fetch(url);
+                        if (response.ok) {
+                            const scriptContent = await response.text();
+                            
+                            // Extrair o array de dados do script
+                            const match = scriptContent.match(/var dadosInscricoes\s*=\s*(\[.*?\]);/s);
+                            if (match && match[1]) {
+                                dadosInscricoes = JSON.parse(match[1]);
+                                success = true;
+                                console.log('Dados carregados com sucesso de:', url);
+                                break;
+                            }
+                        }
+                    } catch (e) {
+                        console.warn('Falha ao carregar de', url, e);
+                        continue;
+                    }
+                }
+                
+                if (!success) {
+                    throw new Error('Não foi possível carregar os dados de nenhuma fonte');
+                }
+                
+                dadosCarregados = true;
+                document.getElementById('errorMessage').style.display = 'none';
+                
+            } catch (error) {
+                console.error('Erro ao carregar dados:', error);
+                document.getElementById('errorMessage').style.display = 'block';
+                document.getElementById('searchButton').disabled = true;
             }
-            
-            console.log('Dados carregados com sucesso. Total de registros:', dadosInscricoes.length);
+        }
+
+        // Aguardar até que o DOM esteja carregado
+        document.addEventListener('DOMContentLoaded', function() {
+            // Iniciar o carregamento dos dados
+            carregarDados();
             
             // Configurar o evento de submit do formulário
             document.getElementById('searchForm').addEventListener('submit', function(e) {
                 e.preventDefault();
+                
+                if (!dadosCarregados) {
+                    alert('Os dados ainda não foram carregados. Por favor, aguarde.');
+                    return;
+                }
                 
                 const email = document.getElementById('email').value.trim().toLowerCase();
                 const searchButton = document.getElementById('searchButton');
@@ -365,7 +423,7 @@
                 // Simular um pequeno atraso para melhor experiência do usuário
                 setTimeout(() => {
                     resultadosAtuais = dadosInscricoes.filter(inscricao => 
-                        inscricao['Endereço de e-mail'].toLowerCase() === email
+                        inscricao['Endereço de e-mail'] && inscricao['Endereço de e-mail'].toLowerCase() === email
                     );
                     
                     mostrarResultados(resultadosAtuais);
@@ -420,18 +478,22 @@
                     
                     // Determinar a classe de status
                     let classeStatus = 'status-pendente';
-                    if (inscricao.status === 'confirmado') {
+                    let textoStatus = 'pendente';
+                    
+                    if (inscricao.status === 'confirmado' || inscricao.Status === 'confirmado') {
                         classeStatus = 'status-confirmado';
-                    } else if (inscricao.status === 'cancelado') {
+                        textoStatus = 'confirmado';
+                    } else if (inscricao.status === 'cancelado' || inscricao.Status === 'cancelado') {
                         classeStatus = 'status-cancelado';
+                        textoStatus = 'cancelado';
                     }
                     
                     row.innerHTML = `
-                        <td>${inscricao.datainscriçăo}</td>
-                        <td>${inscricao['Tipo da Inscriçăo']}</td>
-                        <td>${inscricao['Nome Completo']}</td>
-                        <td>${inscricao.Cidade}</td>
-                        <td><span class="${classeStatus}">${inscricao.status}</span></td>
+                        <td>${inscricao.datainscriçăo || inscricao['Data de Inscrição'] || 'N/A'}</td>
+                        <td>${inscricao['Tipo da Inscriçăo'] || inscricao['Tipo de Inscrição'] || 'N/A'}</td>
+                        <td>${inscricao['Nome Completo'] || 'N/A'}</td>
+                        <td>${inscricao.Cidade || 'N/A'}</td>
+                        <td><span class="${classeStatus}">${textoStatus}</span></td>
                     `;
                     
                     resultsBody.appendChild(row);
