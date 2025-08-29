@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Consulta de Inscrição - Condomínio Rita Monteiro</title>
+    <style>
+        :root {
+            --primary-color: #00796b;
+            --primary-dark: #004d40;
+            --primary-light: #e0f7fa;
+            --text-color: #333;
+            --light-gray: #f5f5f5;
+            --error-color: #f44336;
+            --success-color: #4caf50;
+            --warning-color: #ff9800;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, var(--primary-light) 0%, #ffffff 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 900px;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 25px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .description {
+            font-size: 1rem;
+            opacity: 0.9;
+        }
+        
+        .search-section {
+            padding: 25px;
+            background-color: white;
+        }
+        
+        .search-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .form-group {
+            width: 100%;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        input[type="email"] {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        input[type="email"]:focus {
+            border-color: var(--primary-color);
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(0, 121, 107, 0.2);
+        }
+        
+        button {
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+            color: white;
+            border: none;
+            padding: 14px 28px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: transform 0.2s, box-shadow 0.2s;
+            width: 100%;
+        }
+        
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+        }
+        
+        button:active {
+            transform: translateY(0);
+        }
+        
+        .btn-secondary {
+            background: linear-gradient(135deg, #6c757d 0%, #495057 100%);
+        }
+        
+        .results-section {
+            padding: 25px;
+            display: none;
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .results-count {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 40px;
+            color: #777;
+            background-color: var(--light-gray);
+            border-radius: 8px;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        th, td {
+            padding: 12px 14px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background-color: #f8f9fa;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        tr:hover {
+            background-color: #f8f9fa;
+        }
+        
+        .status-confirmado {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+            font-weight: 500;
+        }
+        
+        .status-pendente {
+            background-color: #fff3cd;
+            color: #856404;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+            font-weight: 500;
+        }
+        
+        .status-cancelado {
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+            font-weight: 500;
+        }
+        
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: #777;
+            font-size: 0.9rem;
+            padding: 20px;
+            background-color: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+            margin-right: 10px;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @media (min-width: 768px) {
+            .search-form {
+                flex-direction: row;
+                align-items: flex-end;
+            }
+            
+            .form-group {
+                flex: 1;
+            }
+            
+            button {
+                width: auto;
+            }
+        }
+        
+        @media (max-width: 767px) {
+            th, td {
+                padding: 10px;
+                font-size: 14px;
+            }
+            
+            .results-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Consulta de Inscrição</h1>
+            <p class="description">Condomínio Rita Monteiro - Informe seu e-mail para consultar suas inscrições</p>
+        </header>
+        
+        <section class="search-section">
+            <form id="searchForm" class="search-form">
+                <div class="form-group">
+                    <label for="email">Endereço de E-mail</label>
+                    <input type="email" id="email" name="email" placeholder="Digite seu e-mail cadastrado" required>
+                </div>
+                <button type="submit" id="searchButton">Consultar Inscrição</button>
+            </form>
+        </section>
+        
+        <section id="resultsSection" class="results-section">
+            <div class="results-header">
+                <h2>Resultados da Consulta</h2>
+                <div id="resultsCount" class="results-count">0 inscrições encontradas</div>
+            </div>
+            
+            <div id="noResults" class="no-results">
+                <p>Nenhuma inscrição encontrada para o e-mail informado.</p>
+                <p style="margin-top: 15px;">Verifique se digitou o e-mail corretamente ou entre em contato conosco.</p>
+            </div>
+            
+            <div id="resultsTableContainer" style="overflow-x: auto; display: none;">
+                <table id="resultsTable">
+                    <thead>
+                        <tr>
+                            <th>Data de Inscrição</th>
+                            <th>Tipo de Inscrição</th>
+                            <th>Nome Completo</th>
+                            <th>Cidade</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="resultsBody">
+                        <!-- Os resultados serão inseridos aqui via JavaScript -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div class="action-buttons">
+                <button id="newSearchButton" class="btn-secondary">Nova Consulta</button>
+            </div>
+        </section>
+        
+        <footer>
+            <p>Sistema de Consulta de Inscrições - Condomínio Rita Monteiro &copy; 2023</p>
+        </footer>
+    </div>
+
+    <!-- Carregar dados de forma segura de um arquivo externo -->
+    <script src="https://cdn.jsdelivr.net/gh/seuusuario/seurepositorio@main/dados-seguros.js"></script>
+    
+    <script>
+        // Variável para armazenar os resultados atuais
+        let resultadosAtuais = [];
+
+        // Aguardar até que os dados externos estejam carregados
+        document.addEventListener('DOMContentLoaded', function() {
+            // Verificar se os dados foram carregados corretamente
+            if (typeof dadosInscricoes === 'undefined') {
+                console.error('Erro: Os dados não foram carregados corretamente.');
+                alert('Erro ao carregar os dados. Por favor, recarregue a página.');
+                return;
+            }
+            
+            console.log('Dados carregados com sucesso. Total de registros:', dadosInscricoes.length);
+            
+            // Configurar o evento de submit do formulário
+            document.getElementById('searchForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const email = document.getElementById('email').value.trim().toLowerCase();
+                const searchButton = document.getElementById('searchButton');
+                
+                if (!email) {
+                    alert('Por favor, informe um endereço de e-mail para consulta.');
+                    return;
+                }
+                
+                // Validar formato de e-mail
+                if (!validarEmail(email)) {
+                    alert('Por favor, informe um endereço de e-mail válido.');
+                    return;
+                }
+                
+                // Mostrar estado de carregamento
+                searchButton.disabled = true;
+                searchButton.innerHTML = '<div class="loading"></div> Consultando...';
+                
+                // Simular um pequeno atraso para melhor experiência do usuário
+                setTimeout(() => {
+                    resultadosAtuais = dadosInscricoes.filter(inscricao => 
+                        inscricao['Endereço de e-mail'].toLowerCase() === email
+                    );
+                    
+                    mostrarResultados(resultadosAtuais);
+                    
+                    // Restaurar botão
+                    searchButton.disabled = false;
+                    searchButton.innerHTML = 'Consultar Inscrição';
+                }, 800);
+            });
+
+            document.getElementById('newSearchButton').addEventListener('click', function() {
+                // Limpar o campo de email
+                document.getElementById('email').value = '';
+                
+                // Ocultar a seção de resultados
+                document.getElementById('resultsSection').style.display = 'none';
+                
+                // Rolagem suave para o topo
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                // Focar no campo de email
+                document.getElementById('email').focus();
+            });
+        });
+
+        function validarEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(email);
+        }
+
+        function mostrarResultados(resultados) {
+            const resultsSection = document.getElementById('resultsSection');
+            const noResults = document.getElementById('noResults');
+            const resultsBody = document.getElementById('resultsBody');
+            const resultsCount = document.getElementById('resultsCount');
+            const resultsTableContainer = document.getElementById('resultsTableContainer');
+            
+            // Limpar resultados anteriores
+            resultsBody.innerHTML = '';
+            
+            if (resultados.length === 0) {
+                noResults.style.display = 'block';
+                resultsTableContainer.style.display = 'none';
+                resultsCount.textContent = '0 inscrições encontradas';
+            } else {
+                noResults.style.display = 'none';
+                resultsTableContainer.style.display = 'block';
+                resultsCount.textContent = `${resultados.length} inscrição(ões) encontrada(s)`;
+                
+                resultados.forEach(inscricao => {
+                    const row = document.createElement('tr');
+                    
+                    // Determinar a classe de status
+                    let classeStatus = 'status-pendente';
+                    if (inscricao.status === 'confirmado') {
+                        classeStatus = 'status-confirmado';
+                    } else if (inscricao.status === 'cancelado') {
+                        classeStatus = 'status-cancelado';
+                    }
+                    
+                    row.innerHTML = `
+                        <td>${inscricao.datainscriçăo}</td>
+                        <td>${inscricao['Tipo da Inscriçăo']}</td>
+                        <td>${inscricao['Nome Completo']}</td>
+                        <td>${inscricao.Cidade}</td>
+                        <td><span class="${classeStatus}">${inscricao.status}</span></td>
+                    `;
+                    
+                    resultsBody.appendChild(row);
+                });
+            }
+            
+            resultsSection.style.display = 'block';
+            
+            // Rolagem suave para a seção de resultados
+            resultsSection.scrollIntoView({ behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
