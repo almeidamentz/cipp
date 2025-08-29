@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Consulta de Inscrição - 4º Pedal Pantaneiro</title>
+    <title>Consulta de Inscrição - Condomínio Rita Monteiro</title>
     <style>
         :root {
             --primary-color: #00796b;
@@ -271,7 +271,7 @@
     <div class="container">
         <header>
             <h1>Consulta de Inscrição</h1>
-            <p class="description">Consulta 4º Pedal Pantaneiro 2025- Informe seu e-mail para consultar suas inscrições</p>
+            <p class="description">Condomínio Rita Monteiro - Informe seu e-mail para consultar suas inscrições</p>
         </header>
         
         <section class="search-section">
@@ -318,7 +318,7 @@
         </section>
         
         <footer>
-            <p>Sistema de Consulta de Inscrições - 4º Pedal Pantaneiro &copy; 2025</p>
+            <p>Sistema de Consulta de Inscrições - Condomínio Rita Monteiro &copy; 2023</p>
         </footer>
     </div>
 
@@ -376,9 +376,11 @@
                 
                 // Simular um pequeno atraso para melhor experiência do usuário
                 setTimeout(() => {
-                    resultadosAtuais = dadosInscricoes.filter(inscricao => 
-                        inscricao['Endereço de e-mail'].toLowerCase() === email
-                    );
+                    resultadosAtuais = dadosInscricoes.filter(inscricao => {
+                        // Verificar se a propriedade existe e normalizar o e-mail
+                        const emailInscricao = inscricao['Endereço de e-mail'] || inscricao.email || '';
+                        return emailInscricao.toLowerCase() === email;
+                    });
                     
                     mostrarResultados(resultadosAtuais);
                     
@@ -438,12 +440,19 @@
                         classeStatus = 'status-cancelado';
                     }
                     
+                    // Acessar propriedades com fallback para evitar undefined
+                    const dataInscricao = inscricao.datainscriçăo || inscricao.dataInscricao || 'N/A';
+                    const tipoInscricao = inscricao['Tipo da Inscriçăo'] || inscricao.tipoInscricao || 'N/A';
+                    const nomeCompleto = inscricao['Nome Completo'] || inscricao.nomeCompleto || 'N/A';
+                    const cidade = inscricao.Cidade || inscricao.cidade || 'N/A';
+                    const status = inscricao.status || 'N/A';
+                    
                     row.innerHTML = `
-                        <td>${inscricao.datainscriçăo}</td>
-                        <td>${inscricao['Tipo da Inscriçăo']}</td>
-                        <td>${inscricao['Nome Completo']}</td>
-                        <td>${inscricao.Cidade}</td>
-                        <td><span class="${classeStatus}">${inscricao.status}</span></td>
+                        <td>${dataInscricao}</td>
+                        <td>${tipoInscricao}</td>
+                        <td>${nomeCompleto}</td>
+                        <td>${cidade}</td>
+                        <td><span class="${classeStatus}">${status}</span></td>
                     `;
                     
                     resultsBody.appendChild(row);
