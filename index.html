@@ -323,26 +323,38 @@
     </div>
 
     <!-- Carregar dados de forma segura de um arquivo externo -->
-    <script src="https://cdn.jsdelivr.net/gh/seuusuario/seurepositorio@main/dados-seguros.js"></script>
+    <script src="https://almeidamentz.github.io/cipp/data/dados-seguros.js.js"></script>
     
     <script>
         // Variável para armazenar os resultados atuais
         let resultadosAtuais = [];
+        let dadosCarregados = false;
 
         // Aguardar até que os dados externos estejam carregados
         document.addEventListener('DOMContentLoaded', function() {
-            // Verificar se os dados foram carregados corretamente
-            if (typeof dadosInscricoes === 'undefined') {
-                console.error('Erro: Os dados não foram carregados corretamente.');
-                alert('Erro ao carregar os dados. Por favor, recarregue a página.');
-                return;
-            }
-            
-            console.log('Dados carregados com sucesso. Total de registros:', dadosInscricoes.length);
+            // Verificar se os dados foram carregados corretamente após um pequeno delay
+            setTimeout(() => {
+                if (typeof dadosInscricoes === 'undefined') {
+                    console.error('Erro: Os dados não foram carregados corretamente.');
+                    alert('Erro ao carregar os dados. Por favor, recarregue a página.');
+                    return;
+                }
+                
+                console.log('Dados carregados com sucesso. Total de registros:', dadosInscricoes.length);
+                dadosCarregados = true;
+                
+                // Habilitar o formulário
+                document.getElementById('searchButton').disabled = false;
+            }, 1000);
             
             // Configurar o evento de submit do formulário
             document.getElementById('searchForm').addEventListener('submit', function(e) {
                 e.preventDefault();
+                
+                if (!dadosCarregados) {
+                    alert('Os dados ainda estão sendo carregados. Por favor, aguarde.');
+                    return;
+                }
                 
                 const email = document.getElementById('email').value.trim().toLowerCase();
                 const searchButton = document.getElementById('searchButton');
